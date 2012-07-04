@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8 />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+    <meta name='apple-mobile-web-app-status-bar-style' content='black' />
+    <meta name='apple-mobile-web-app-capable' content='yes' />
+    <title>Educação na Amazônia</title>
+    <link href='site.css' rel='stylesheet'>
+    <link href='js/chosen.css' rel='stylesheet'>
+    <link href='js/mmg.css' rel='stylesheet'>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src='js/modestmaps.min.js'></script>
+    <script type="text/javascript" src='js/easey.js'></script>
+    <script type="text/javascript" src='js/easey.handlers.js'></script>
+    <script type="text/javascript" src='js/wax.mm.min.js'></script>
+    <script type="text/javascript" src="js/jlinq.js"></script>
+    <script type="text/javascript" src="js/jlinq.jquery.js"></script>
+    <script type="text/javascript" src="js/chosen.jquery.js"></script>
+    <script type="text/javascript" src="js/mmg.js"></script>
+    <script type="text/javascript" src="js/mmg_interaction.js"></script>
+    <script type="text/javascript" src="js/simplestyle_factory.js"></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" src='js/site2.js'></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div id='header'>
+            <h1 id='title'>Educação na Amazônia</h1>
+            <div id='description'>Mapa de constatações na região norte do país</div>
+        </div>
+        <div id='map' class='fullscreen'></div>
+
+        <ul id="filters">
+            <li>
+                <select class="filter cidade" data-type="cidade" data-placeholder="Escolha uma cidade..." style="width:350px;" class="chzn-select"><option value></option></select>
+                <div id="filter_map"></div>
+            </li>
+            <li>
+                <select class="filter programa" data-type="programa" data-placeholder="Escolha um programa..." style="width:350px;" class="chzn-select"><option value></option></select>
+            </li>
+            <li>
+                <select class="filter tipo" data-type="tipo" data-placeholder="Escolha um tipo de irregularidade..." style="width:350px;" class="chzn-select"><option value></option></select>
+            </li>
+        </ul>
+
+        <div id="graphs">
+        </div>
+    </div>
+</body>
+</html>
