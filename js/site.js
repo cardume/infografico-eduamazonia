@@ -415,7 +415,8 @@ function drawCidade(cidade, containerId) {
             backgroundColor: 'transparent',
             vAxis: {title: 'Irregularidades'},
             hAxis: {title: 'Programa'},
-            seriesType: 'bars'
+            seriesType: 'bars',
+            isStacked: true
         },
         containerId: containerId
     });
