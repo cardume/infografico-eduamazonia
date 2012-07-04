@@ -127,7 +127,7 @@ $('.cidade-marker').live('click', function() {
     var lat = $(this).data('lat');
     var lon = $(this).data('lon');
     var markerId = $(this).data('cidade');
-    navigateFilter(lat, lon, markerId);
+    navigateFilter(lat, lon, 8, markerId);
 
     $('select.cidade option').attr('selected', false);
     $('select.cidade option[value="' + markerId + '"]').attr('selected', true);
@@ -135,10 +135,10 @@ $('.cidade-marker').live('click', function() {
 
 });
 
-function navigateFilter(lat, lon, markerId) {
+function navigateFilter(lat, lon, zoom, markerId) {
     easey().map(filter_map)
         .to(filter_map.locationCoordinate({lat: lat, lon: lon})
-        .zoomTo(8))
+        .zoomTo(zoom))
         .run(2000);
 
     $('.cidade-marker').removeClass('active');
@@ -220,9 +220,13 @@ $(document).ready(function() {
         // navigate map if city
         if($(this).hasClass('cidade')) {
             var markerId = $(this).find('option:selected').val();
-            var lat = $(this).find('option:selected').data('lat');
-            var lon = $(this).find('option:selected').data('lon');
-            navigateFilter(lat, lon, markerId);
+            if(markerId) {
+                var lat = $(this).find('option:selected').data('lat');
+                var lon = $(this).find('option:selected').data('lon');
+                navigateFilter(lat, lon, 8, markerId);
+            } else {
+                navigateFilter(-2, -57, 4);
+            }
         }
 
         theMagic(selectedFilters);
