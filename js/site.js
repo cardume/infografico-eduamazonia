@@ -243,7 +243,7 @@ function theMagic(selectedFilters) {
             - tipo
         */
         graphsContainer.append('<div id="graph01"></div>');
-        drawCidade(selectedFilters.cidade, 'graph01');
+        drawCidade(selectedFilters, 'graph01');
     } else if(!selectedFilters.cidade && selectedFilters.tipo && !selectedFilters.programa) {
         /*--TIPO
             gráfico pizza
@@ -252,7 +252,8 @@ function theMagic(selectedFilters) {
             - cidade
         */
         graphsContainer.append('<div id="graph01"></div><div id="graph02"></div>');
-        drawPieChart('Teste', selectedFilters, 'programa', 'graph01');
+        drawPieChart('', selectedFilters, 'programa', 'graph01');
+        drawBarChart('', selectedFilters, 'cidade', 'graph02');
     } else if(!selectedFilters.cidade && !selectedFilters.tipo && selectedFilters.programa) {
         /*--PROGRAMA
             gráfico pizza
@@ -261,7 +262,8 @@ function theMagic(selectedFilters) {
             - cidade
         */
         graphsContainer.append('<div id="graph01"></div><div id="graph02"></div>');
-        drawPieChart('Teste 2', selectedFilters, 'tipo', 'graph01');
+        drawPieChart('', selectedFilters, 'tipo', 'graph01');
+        drawBarChart('', selectedFilters, 'cidade', 'graph02');
     } else if(selectedFilters.cidade && selectedFilters.tipo && !selectedFilters.programa) {
         /*--CIDADE+TIPO
             gráfico pizza
@@ -270,7 +272,9 @@ function theMagic(selectedFilters) {
             - programa
         */
         graphsContainer.append('<div id="graph01"></div><div id="graph02"></div>');
-        drawPieChart('Teste 3', selectedFilters, 'programa', 'graph01');        
+        drawPieChart('', selectedFilters, 'programa', 'graph01');
+        selectedFilters.cidade = '';
+        drawPieChart('Total', selectedFilters, 'programa', 'graph02');
     } else if(!selectedFilters.cidade && selectedFilters.tipo && selectedFilters.programa) {
         /*--TIPO+PROGRAMA
             gráfico barra
@@ -303,38 +307,44 @@ function getIrregularidadesCount(filters) {
 }
 
 function getAvailableData(filters, categories) {
-    var available = {};
+    var availableData = {};
     if(categories instanceof Array) {
         $.each(categories, function(i, category) {
-            available[category] = getCategoryAvailableData(filters, category);
+            availableData[category] = getCategoryAvailableData(filters, category);
         });
     } else {
-        available[categories] = getCategoryAvailableData(filters, categories);
+        availableData[categories] = getCategoryAvailableData(filters, categories);
     }
-    return available;
+    return availableData;
 }
 
 function getCategoryAvailableData(filters, category) {
-    var categoryAvailableData = [];
+    var availableCategoryData = [];
     var i = 0;
     $.each(eduamazonia[category], function(key, value) {
         var filtering = {};
+        var count;
         filtering[category] = value[category];
-        $.extend(filtering, filters);
-        var count = getIrregularidadesCount(filtering);
+        var mixedFilter = $.extend({}, filters, filtering);
+        //console.log(mixedFilter);
+        count = getIrregularidadesCount(mixedFilter);
         if(count >= 1) {
-            categoryAvailableData[i] = value;
+            availableCategoryData[i] = value;
+            availableCategoryData[i].count = count;
             i++;
+            //console.log(availableCategoryData[i]);
         }
     });
-    return categoryAvailableData;
+    return availableCategoryData;
 }
 
-function getCidadeGraphData(cidade) {
+function getCidadeGraphData(filters) {
     var data = [];
     data[0] = [];
 
-    var availableData = getAvailableData({'cidade': cidade}, ['programa', 'tipo']);
+    var cidade = filters.cidade;
+
+    var availableData = getAvailableData(filters, ['programa', 'tipo']);
 
     // setup header
     data[0][0] = 'Programa';
@@ -360,8 +370,8 @@ function getCidadeGraphData(cidade) {
 
 function getGraphData(filters, category) {
     var availableData = getAvailableData(filters, category);
-    console.log(availableData);
     var data = [];
+    //console.log(availableData);
     data[0] = [];
     if(category == 'tipo') {
         data[0][0] = 'Tipo';
@@ -375,21 +385,37 @@ function getGraphData(filters, category) {
     jQuery.each(availableData[category], function(i, catData) {
         data[i+1] = [];
         data[i+1][0] = catData[category];
-        filters[category] = catData[category];
-        data[i+1][1] = getIrregularidadesCount(filters);
+        data[i+1][1] = catData.count;
     });
+    console.log(data);
     return data;
 }
 
-function drawPieChart(title, filters, output, containerId) {
+function drawPieChart(title, filters, categories, containerId) {
     var wrapper = new google.visualization.ChartWrapper({
         chartType: 'PieChart',
-        dataTable: getGraphData(filters, output),
+        dataTable: getGraphData(filters, categories),
         options: {
             title: title,
             width: 473,
             height: 400,
             backgroundColor: 'transparent'
+        },
+        containerId: containerId
+    });
+    wrapper.draw();
+    return;
+}
+
+function drawBarChart(title, filters, categories, containerId) {
+    var wrapper = new google.visualization.ChartWrapper({
+        chartType: 'BarChart',
+        dataTable: getGraphData(filters, categories),
+        options: {
+            title: title,
+            width: 473,
+            backgroundColor: 'transparent',
+            colors: ['#f00']
         },
         containerId: containerId
     });
@@ -415,20 +441,4 @@ function drawCidade(cidade, containerId) {
     });
     wrapper.draw();
     return;
-}
-
-function drawBarChart(title, filters, output) {
-    var wrapper = new google.visualization.ChartWrapper({
-        chartType: 'BarChart',
-        dataTable: getSimpleGraphData(filters, output),
-        options: {
-            title: title,
-            width: 600,
-            height: 1500,
-            backgroundColor: 'transparent',
-            colors: ['#f00']
-        },
-        containerId: 'visualization'
-    });
-    wrapper.draw();
 }
