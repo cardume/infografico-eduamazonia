@@ -306,35 +306,28 @@ function getAvailableData(filters, categories) {
     var available = {};
     if(categories instanceof Array) {
         $.each(categories, function(i, category) {
-            available[category] = [];
-            var i = 0;
-            $.each(eduamazonia[category], function(key, value) {
-                var filtering = {};
-                filtering[category] = value[category];
-                $.extend(filtering, filters);
-                var count = getIrregularidadesCount(filtering);
-                if(count >= 1) {
-                    available[category][i] = value;
-                    i++;
-                }
-            });
+            available[category] = getCategoryAvailableData(filters, category);
         });
     } else {
-        var category = categories;
-        available[category] = [];
-        var i = 0;
-        $.each(eduamazonia[category], function(key, value) {
-            var filtering = {};
-            filtering[category] = value[category];
-            $.extend(filtering, filters);
-            var count = getIrregularidadesCount(filtering);
-            if(count >= 1) {
-                available[category][i] = value;
-                i++;
-            }
-        });
+        available[categories] = getCategoryAvailableData(filters, categories);
     }
     return available;
+}
+
+function getCategoryAvailableData(filters, category) {
+    var categoryAvailableData = [];
+    var i = 0;
+    $.each(eduamazonia[category], function(key, value) {
+        var filtering = {};
+        filtering[category] = value[category];
+        $.extend(filtering, filters);
+        var count = getIrregularidadesCount(filtering);
+        if(count >= 1) {
+            categoryAvailableData[i] = value;
+            i++;
+        }
+    });
+    return categoryAvailableData;
 }
 
 function getCidadeGraphData(cidade) {
