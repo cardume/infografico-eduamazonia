@@ -253,7 +253,7 @@ function theMagic(selectedFilters) {
         */
         graphsContainer.append('<div id="graph01"></div><div id="graph02"></div>');
         drawPieChart('', selectedFilters, 'programa', 'graph01');
-        drawBarChart('', selectedFilters, 'cidade', 'graph02');
+        drawColumnChart('', selectedFilters, 'cidade', 'graph02');
     } else if(!selectedFilters.cidade && !selectedFilters.tipo && selectedFilters.programa) {
         /*--PROGRAMA
             gráfico pizza
@@ -263,7 +263,7 @@ function theMagic(selectedFilters) {
         */
         graphsContainer.append('<div id="graph01"></div><div id="graph02"></div>');
         drawPieChart('', selectedFilters, 'tipo', 'graph01');
-        drawBarChart('', selectedFilters, 'cidade', 'graph02');
+        drawColumnChart('', selectedFilters, 'cidade', 'graph02');
     } else if(selectedFilters.cidade && selectedFilters.tipo && !selectedFilters.programa) {
         /*--CIDADE+TIPO
             gráfico pizza
@@ -280,6 +280,8 @@ function theMagic(selectedFilters) {
             gráfico barra
             - cidade
         */
+        graphsContainer.append('<div id="graph01"></div>');
+        drawColumnChart('', selectedFilters, 'cidade', 'graph01');
     } else if(selectedFilters.cidade && !selectedFilters.tipo && selectedFilters.programa) {
         /*--CIDADE+PROGRAMA
             gráfico pizza
@@ -326,16 +328,15 @@ function getCategoryAvailableData(filters, category) {
         var count;
         filtering[category] = value[category];
         var mixedFilter = $.extend({}, filters, filtering);
-        //console.log(mixedFilter);
         count = getIrregularidadesCount(mixedFilter);
         if(count >= 1) {
             availableCategoryData[i] = value;
             availableCategoryData[i].count = count;
             i++;
-            //console.log(availableCategoryData[i]);
         }
     });
-    return availableCategoryData;
+    var sortedData = jLinq.from(availableCategoryData).sort('-count').select();
+    return sortedData;
 }
 
 function getCidadeGraphData(filters) {
@@ -368,10 +369,9 @@ function getCidadeGraphData(filters) {
     return data;
 }
 
-function getGraphData(filters, category) {
+function getPieGraphData(filters, category) {
     var availableData = getAvailableData(filters, category);
     var data = [];
-    //console.log(availableData);
     data[0] = [];
     if(category == 'tipo') {
         data[0][0] = 'Tipo';
@@ -387,14 +387,27 @@ function getGraphData(filters, category) {
         data[i+1][0] = catData[category];
         data[i+1][1] = catData.count;
     });
-    console.log(data);
+    return data;
+}
+
+function getColumnGraphData(filters, category) {
+    var availableData = getAvailableData(filters, category);
+    var data = [];
+    data[0] = [];
+    data[1] = [];
+    data[0][0] = '';
+    data[1][0] = '';
+    jQuery.each(availableData[category], function(i, catData) {
+        data[0][i+1] = catData[category];
+        data[1][i+1] = catData.count;
+    });
     return data;
 }
 
 function drawPieChart(title, filters, categories, containerId) {
     var wrapper = new google.visualization.ChartWrapper({
         chartType: 'PieChart',
-        dataTable: getGraphData(filters, categories),
+        dataTable: getPieGraphData(filters, categories),
         options: {
             title: title,
             width: 473,
@@ -407,15 +420,16 @@ function drawPieChart(title, filters, categories, containerId) {
     return;
 }
 
-function drawBarChart(title, filters, categories, containerId) {
+function drawColumnChart(title, filters, categories, containerId) {
     var wrapper = new google.visualization.ChartWrapper({
-        chartType: 'BarChart',
-        dataTable: getGraphData(filters, categories),
+        chartType: 'ColumnChart',
+        dataTable: getColumnGraphData(filters, categories),
         options: {
             title: title,
-            width: 473,
+            width: 500,
+            height: 500,
             backgroundColor: 'transparent',
-            colors: ['#f00']
+            vAxis: {title:'Irregularidades'}
         },
         containerId: containerId
     });
