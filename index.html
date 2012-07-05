@@ -6,6 +6,8 @@
     <meta name='apple-mobile-web-app-status-bar-style' content='black' />
     <meta name='apple-mobile-web-app-capable' content='yes' />
     <title>Educação na Amazônia</title>
+    <link href='http://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Condensed' rel='stylesheet' type='text/css'>
     <link href='site.css' rel='stylesheet'>
     <link href='js/chosen.css' rel='stylesheet'>
     <link href='js/mmg.css' rel='stylesheet'>
@@ -24,27 +26,75 @@
     <script type="text/javascript" src='js/site.js'></script>
 </head>
 <body>
+    <header>
+        <img src="img/header01.jpg" />
+        <img src="img/header02.png" />
+        <h1>Título do infográfico 2</h1>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="#">Visão Geral</a></li>
+                <li><a href="#">Navegue pelos dados</a></li>
+                <li><a href="#">Copie os dados</a></li>
+            </ul>
+        </nav>
+    </header>
     <div class="wrapper">
-        <div id='header'>
-            <h1 id='title'>Educação na Amazônia</h1>
-            <div id='description'>Mapa de constatações na região norte do país</div>
-        </div>
-        <div id='map' class='fullscreen'></div>
-
-        <ul id="filters">
-            <li>
-                <select class="filter cidade" data-type="cidade" data-placeholder="Escolha uma cidade..." style="width:350px;" class="chzn-select"><option value></option></select>
-                <div id="filter_map"></div>
-            </li>
-            <li>
-                <select class="filter programa" data-type="programa" data-placeholder="Escolha um programa..." style="width:350px;" class="chzn-select"><option value></option></select>
-            </li>
-            <li>
-                <select class="filter tipo" data-type="tipo" data-placeholder="Escolha um tipo de irregularidade..." style="width:350px;" class="chzn-select"><option value></option></select>
-            </li>
-        </ul>
-        <div id="graphs">
-        </div>
+        <section id="main">
+            <section id="visao-geral">
+                <nav id="visao-geral-nav">
+                    <ul>
+                        <li class="active"><a href="#">Mapa</a></li>
+                        <li><a href="#">Programas do governo</a></li>
+                        <li><a href="#">Tipos de irregularidade</a></li>
+                        <li><a href="#">Reportagem</a></li>
+                    </ul>
+                </nav>
+                <div id="carousel">
+                    <a href="#" title="Voltar" class="prev">Voltar</a>
+                    <a href="#" title="Avançar" class="next">Avançar</a>
+                    <ul class="carousel-content">
+                        <li class="mapa">
+                            <div id="map" class="fullscreen"></div>
+                            <div class="default-tip">
+                                <div class="cidade-teaser">
+                                    <h2>Amazônia</h2>
+                                    <p class="total">
+                                        <span class="head">total de</span>
+                                        <span class="n">619</span>
+                                        <span class="foot">irregularidades</span>
+                                    </p>
+                                    <ul class="tipos">
+                                        <li><span>193</span> em despesa irregular</li>
+                                        <li><span>25</span> em desvio de finalidade</li>
+                                        <li><span>241</span> em falta de controle administrativo</li>
+                                        <li><span>57</span> em falta de controle social</li>
+                                        <li><span>103</span> em falta de prestação de contas</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <section id="navegue">
+                <ul id="filters">
+                    <li>
+                        <select class="filter cidade" data-type="cidade" data-placeholder="Escolha uma cidade..." style="width:350px;" class="chzn-select"><option value></option></select>
+                        <div id="filter_map"></div>
+                    </li>
+                    <li>
+                        <select class="filter programa" data-type="programa" data-placeholder="Escolha um programa..." style="width:350px;" class="chzn-select"><option value></option></select>
+                    </li>
+                    <li>
+                        <select class="filter tipo" data-type="tipo" data-placeholder="Escolha um tipo de irregularidade..." style="width:350px;" class="chzn-select"><option value></option></select>
+                    </li>
+                </ul>
+                <div id="graphs">
+                </div>
+            </section>
+        </section>
+        <footer>
+        </footer>
     </div>
 </body>
 </html>
