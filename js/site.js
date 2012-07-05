@@ -236,6 +236,11 @@ $(document).ready(function() {
 function theMagic(selectedFilters) {
     var graphsContainer = $('#graphs');
     graphsContainer.empty();
+    // clear select options
+    $('select.filter option').attr('disabled', false);
+    $('.cidade-marker').show();
+    $('select.filter').chosen().trigger('liszt:updated');
+
     if(selectedFilters.cidade && !selectedFilters.tipo && !selectedFilters.programa) {
         /*--CIDADE
             gráfico coluna
@@ -344,8 +349,9 @@ function getCidadeGraphData(filters) {
     data[0] = [];
 
     var cidade = filters.cidade;
+    var categories = ['programa', 'tipo'];
 
-    var availableData = getAvailableData(filters, ['programa', 'tipo']);
+    var availableData = getAvailableData(filters, categories);
 
     // setup header
     data[0][0] = 'Programa';
@@ -365,7 +371,7 @@ function getCidadeGraphData(filters) {
             });
         });
     });
-
+    updateSelectOptions(filters, categories, availableData);
     return data;
 }
 
@@ -387,6 +393,7 @@ function getPieGraphData(filters, category) {
         data[i+1][0] = catData[category];
         data[i+1][1] = catData.count;
     });
+    updateSelectOptions(filters, [category], availableData);
     return data;
 }
 
@@ -401,7 +408,27 @@ function getColumnGraphData(filters, category) {
         data[0][i+1] = catData[category];
         data[1][i+1] = catData.count;
     });
+    updateSelectOptions(filters, [category], availableData);
     return data;
+}
+
+function updateSelectOptions(filters, categories, availableData) {
+    if(categories instanceof String) {
+        categories = [categories];
+    }
+    $.each(categories, function(i, category) {
+        var data = availableData[category];
+        $('select.' + category + ' option').attr('disabled', true);
+        if(category == 'cidade')
+            $('.cidade-marker').hide();
+        $.each(data, function(key, value) {
+            var $option = $('select.' + category + ' option[value="' + value[category] + '"]');
+            $option.attr('disabled', false);
+            if(category == 'cidade')
+                $('.cidade-marker[data-cidade="' + value[category] + '"]').show();
+        });
+        $('select.' + category).chosen().trigger('liszt:updated');
+    });
 }
 
 function drawPieChart(title, filters, categories, containerId) {
