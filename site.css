@@ -263,11 +263,6 @@ section#visao-geral nav ul li:hover a {
   position: relative;
 }
 
-#carousel .mapa .cidade-teaser.dynamic-tip {
-  opacity: 1;
-  z-index:1;
-}
-
 #carousel .mapa .cidade-teaser {
   z-index:999999;
   position:absolute;
@@ -403,20 +398,81 @@ section#navegue #filter_map .cidade-marker.active .cidade-tip {
 }
 
 section#navegue #data {
-  float: right;
-  width: 450px;
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  padding-right: 10px;
+  width: 460px;
+  height: 600px;
+  overflow: auto;
+}
+
+section#navegue #data header {
+  position: relative;
+  z-index: 1;
+}
+
+section#navegue #data header h2 {
+  font-family: 'Amatic SC';
+  font-weight: 700;
+  font-size: 42px;
+  margin: 0 0 20px;
 }
 
 section#navegue #data #graphs {
   position: relative;
-  overflow: hidden;
-  height: 676px;
 }
 
 section#navegue #data .graph-container {
   margin: -50px 0;
 }
 
+section#navegue #data-table table {
+  width: 100%;
+  margin: 0 0 20px;
+}
+
+section#navegue #data-table table tr:nth-child(odd) {
+  background-color: #f1eee5;
+}
+
+
+section#navegue #data-table table tr th {
+  font-size: 12px;
+  text-align: center;
+  padding: 10px;
+  margin: 1px;
+  border: 1px solid #fff;
+  background: #eee;
+  vertical-align: middle;
+}
+
+section#navegue #data-table table tr th.n {
+  color: #e8851f;
+}
+
+section#navegue #data-table table tr th.m,
+section#navegue #data-table table tr td.m {
+  color: #9ab485;
+}
+
+section#navegue #data-table table tr td {
+  font-size: 14px;
+  text-align: center;
+  padding: 5px 0;
+  vertical-align: middle;
+}
+
+section#navegue #data-table table tr td.n {
+  font-size: 16px;
+  font-weight: bold;
+  color: #e8851f;
+}
+
+section#navegue #data-table table tr td.m {
+  font-size: 16px;
+  font-weight: bold;
+}
 footer {
   width: 100%;
   height: 200px;
@@ -459,76 +515,13 @@ a.zoomer {
     -moz-border-bottom-right-radius: 3px;
     }
 
-.wax-legends {
-  position:absolute;
-  right:20px;
-  bottom:20px;
-  z-index:999999;
-  background: #fff;
-  padding: 15px 10px 10px;
-  border-radius: 3px;
-  -moz-border-radius: 3px;
-  box-shadow:rgba(0,0,0,0.1) 3px 3px 3px;
-  -moz-box-shadow:rgba(0,0,0,0.1) 3px 3px 3px;
-  -webkit-box-shadow:rgba(0,0,0,0.1) 3px 3px 3px;
-  }
-
 .wax-fade {
   opacity:0;
-  transition: opacity .5s;
-  -moz-transition: opacity .5s; /* Firefox 4 */
-  -webkit-transition: opacity .5s; /* Safari and Chrome */
-  -o-transition: opacity .5s; /* Opera */
-  }
+}
 
-  .wax-tooltip .close {
-    display:block;
-    position:absolute;
-    top:0px;
-    right:0px;
-    }
-
-
-
-
-
-
- .wax-legend .legend-title {
-    text-align: left;
-    margin-bottom: 8px;
-    font-weight: bold;
-    font-size: 90%;
-    }
-  .wax-legend .legend-scale ul {
-    margin: 0;
-    padding: 0;
-    float: left;
-    list-style: none;
-    }
-  .wax-legend .legend-scale ul li {
-    display: block;
-    float: left;
-    width: 50px;
-    margin-bottom: 6px;
-    text-align: center;
-    font-size: 80%;
-    list-style: none;
-    }
-  .wax-legend ul.legend-labels li span {
-    display: block;
-    float: left;
-    height: 15px;
-    width: 50px;
-    margin-bottom: 10px;
-    }
-  .wax-legend .legend-source {
-    font-size: 70%;
-    color: #999;
-    clear: both;
-    }
-  .wax-legend a {
-    color: #777;
-    }
-
-
-
+.wax-tooltip .close {
+  display:block;
+  position:absolute;
+  top:0px;
+  right:0px;
+}

@@ -1,8 +1,7 @@
 /* SITE SETUP */
 
-
 /*
-    MAP
+    HOME MAP
 
 */
 
@@ -55,10 +54,10 @@ $(document).ready(function() {
         .tilejson(tilejson)
         .on(wax.tooltip().animate(true).parent(m.parent).events())
         .on({
-            on: function() {
+            on: function(e) {
                 $('.default-tip').hide();
             },
-            off: function() {
+            off: function(e) {
                 $('.default-tip').show();
             }
         });
@@ -84,90 +83,170 @@ $(document).ready(function() {
 
 });
 
-// filter map
+// prepare links
 
+$(document).ready(function() {
+    $('nav#main-nav a').click(function() {
+        var section = $(this).data('section');
+        if(section) {
+            loadSection(section);
+            return false;
+        }
+    });
+});
 
+var sectionLoaded = {};
+sectionLoaded.navegue = false;
 
-var filter_map;
-var tilejson_filters = {
-    tilejson: '1.0.0',
-    scheme: 'xyz',
-    tiles: [
-        'http://maps.cardume.art.br/v2/eduamazonia_marcador/{z}/{x}/{y}.png'
-    ],
-    formatter: function(options, data) {
-        return data
+function loadSection(section) {
+
+    $('.main-section').hide();
+    $('#' + section).show();
+
+    if(section == 'navegue' && sectionLoaded[section] == false) {    // prepare data and filters
+
+        $.getJSON('constatacoes.json.php?data=geral', function(data) {
+            irregularidadesData = data;
+        });
+        // prepare tipos data
+        $.getJSON('constatacoes.json.php?data=tipo', function(data) {
+            eduamazonia.tipo = data;
+
+            // setup dropdown
+            $.each(eduamazonia.tipo, function(i, tipo) {
+                $('select.tipo').append('<option value="' + tipo.tipo + '">' + tipo.tipo + '</option>');
+            });
+            jQuery('select.tipo').chosen().trigger('liszt:updated');
+        });
+        // prepare programas data
+        $.getJSON('constatacoes.json.php?data=programa', function(data) {
+            eduamazonia.programa = data;
+
+            // setup dropdown
+            $.each(eduamazonia.programa, function(i, programa) {
+                $('select.programa').append('<option value="' + programa.programa + '">' + programa.programa_desc + '</option>');
+            });
+            jQuery('select.programa').chosen().trigger('liszt:updated');
+        });
+        // prepare cidades data
+        $.getJSON('constatacoes.json.php?data=cidade', function(data) {
+            eduamazonia.cidade = data;
+
+            // setup dropdown
+            $.each(eduamazonia.cidade, function(i, cidade) {
+                $('select.cidade').append('<option value="' + cidade.cidade + '">' + cidade.cidade + ' - ' + cidade.estado + '</option>');
+            });
+            jQuery('select.cidade').chosen().trigger('liszt:updated');
+
+            // setup marker layer
+            var pointLayer = mmg().factory(markerFactory).url('cidades.geojson', function(feat, l) {
+                mmg_interaction(l);
+            });
+            filter_map.addLayer(pointLayer);
+        });
+        // select change event
+        $('select').chosen({allow_single_deselect:true}).change(function() {
+
+            $('select.filter').each(function() {
+                var filterValue = $(this).find('option:selected').val();
+                var filterKey = $(this).data('type');
+                selectedFilters[filterKey] = filterValue;
+            });
+
+            // navigate map if city
+            if($(this).hasClass('cidade')) {
+                var markerId = $(this).find('option:selected').val();
+                if(markerId) {
+                    var lat = $(this).find('option:selected').data('lat');
+                    var lon = $(this).find('option:selected').data('lon');
+                    navigateFilter(lat, lon, 8, markerId);
+                } else {
+                    navigateFilter(-2, -57, 4);
+                }
+            }
+            theMagic(selectedFilters);
+        });
+
+        // filter map
+
+        var filter_map;
+        var tilejson_filters = {
+            tilejson: '1.0.0',
+            scheme: 'xyz',
+            tiles: [
+                'http://maps.cardume.art.br/v2/eduamazonia_marcador/{z}/{x}/{y}.png'
+            ],
+            formatter: function(options, data) {
+                return data
+            }
+        }
+
+        filter_map = new MM.Map('filter_map', new wax.mm.connector(tilejson_filters), null);
+        filter_map.setCenterZoom(new MM.Location(-56,-5),4);
+
+        wax.mm.zoomer(filter_map).appendTo(filter_map.parent);
+        wax.mm.interaction()
+            .map(filter_map)
+            .tilejson(tilejson);
+
+        var filter_map_ea = easey().map(filter_map).easing('easeInOut');
+
+        var minZoom = 4;
+        var maxZoom = 8;
+        var topLeft = new MM.Location(6, -77);
+        var bottomRight = new MM.Location(-15, -43);
+
+        filter_map.setZoomRange(minZoom,maxZoom);
+
+        filter_map.coordLimits = [
+            filter_map.locationCoordinate(topLeft).zoomTo(minZoom),
+            filter_map.locationCoordinate(bottomRight).zoomTo(maxZoom)
+        ];
+
+        layer.tileLimits = [
+            filter_map.locationCoordinate(topLeft).zoomTo(minZoom),
+            filter_map.locationCoordinate(bottomRight).zoomTo(maxZoom)
+        ];
+
+        sectionLoaded[section] = true;
+
+        function markerFactory(feature) {
+            var d = document.createElement('div');
+            d.className = 'cidade-marker';
+            // $(d).data('cidade', feature.id);
+            $(d)
+                .attr('data-cidade', feature.id)
+                .data('lat', feature.properties.geo_latitude)
+                .data('lon', feature.properties.geo_longitude)
+                .append('<span class="cidade-tip">' + feature.id + ' - ' + feature.properties.estado + '</span>');
+            $('option[value="' + feature.id + '"]')
+                .data('lat', feature.properties.geo_latitude)
+                .data('lon', feature.properties.geo_longitude);
+            return d;
+        }
+
+        $('.cidade-marker').live('click', function() {
+            var lat = $(this).data('lat');
+            var lon = $(this).data('lon');
+            var markerId = $(this).data('cidade');
+            navigateFilter(lat, lon, 8, markerId);
+
+            $('select.cidade option').attr('selected', false);
+            $('select.cidade option[value="' + markerId + '"]').attr('selected', true);
+            $('select.cidade').chosen().trigger('liszt:updated').change();
+        });
+
+        function navigateFilter(lat, lon, zoom, markerId) {
+            easey().map(filter_map)
+                .to(filter_map.locationCoordinate({lat: lat, lon: lon})
+                .zoomTo(zoom))
+                .run(2000);
+
+            $('.cidade-marker').removeClass('active');
+            if(markerId)
+                $('.cidade-marker[data-cidade="'+markerId+'"]').addClass('active');
+        }
     }
-}
-var filter_map_ea;
-
-
-jQuery(document).ready(function() {
-    filter_map = new MM.Map('filter_map', new wax.mm.connector(tilejson_filters), null);
-    filter_map.setCenterZoom(new MM.Location(-56,-5),4);
-
-    wax.mm.zoomer(filter_map).appendTo(filter_map.parent);
-    wax.mm.interaction()
-        .map(filter_map)
-        .tilejson(tilejson);
-
-    filter_map_ea = easey().map(filter_map).easing('easeInOut');
-
-    var minZoom = 4;
-    var maxZoom = 8;
-    var topLeft = new MM.Location(6, -77);
-    var bottomRight = new MM.Location(-15, -43);
-
-    filter_map.setZoomRange(minZoom,maxZoom);
-    
-    filter_map.coordLimits = [
-        filter_map.locationCoordinate(topLeft).zoomTo(minZoom),
-        filter_map.locationCoordinate(bottomRight).zoomTo(maxZoom)
-    ];
-
-    layer.tileLimits = [
-        filter_map.locationCoordinate(topLeft).zoomTo(minZoom),
-        filter_map.locationCoordinate(bottomRight).zoomTo(maxZoom)
-    ];
-
-});
-
-function markerFactory(feature) {
-    var d = document.createElement('div');
-    d.className = 'cidade-marker';
-    // $(d).data('cidade', feature.id);
-    $(d)
-        .attr('data-cidade', feature.id)
-        .data('lat', feature.properties.geo_latitude)
-        .data('lon', feature.properties.geo_longitude)
-        .append('<span class="cidade-tip">' + feature.id + ' - ' + feature.properties.estado + '</span>');
-    $('option[value="' + feature.id + '"]')
-        .data('lat', feature.properties.geo_latitude)
-        .data('lon', feature.properties.geo_longitude);
-    return d;
-}
-
-$('.cidade-marker').live('click', function() {
-    var lat = $(this).data('lat');
-    var lon = $(this).data('lon');
-    var markerId = $(this).data('cidade');
-    navigateFilter(lat, lon, 8, markerId);
-
-    $('select.cidade option').attr('selected', false);
-    $('select.cidade option[value="' + markerId + '"]').attr('selected', true);
-    $('select.cidade').chosen().trigger('liszt:updated').change();
-
-});
-
-function navigateFilter(lat, lon, zoom, markerId) {
-    easey().map(filter_map)
-        .to(filter_map.locationCoordinate({lat: lat, lon: lon})
-        .zoomTo(zoom))
-        .run(2000);
-
-    $('.cidade-marker').removeClass('active');
-    if(markerId)
-        $('.cidade-marker[data-cidade="'+markerId+'"]').addClass('active');
 }
 
 
@@ -183,83 +262,41 @@ google.load('visualization', '1', {packages: ['corechart']});
 // declare data vars
 var irregularidadesData;
 var eduamazonia = {};
-
 var selectedFilters = {};
-
-$(document).ready(function() {
-    // prepare general data
-    $.getJSON('constatacoes.json.php?data=geral', function(data) {
-        irregularidadesData = data;
-    });
-
-    // prepare tipos data
-    $.getJSON('constatacoes.json.php?data=tipo', function(data) {
-        eduamazonia.tipo = data;
-
-        // setup dropdown
-        $.each(eduamazonia.tipo, function(i, tipo) {
-            $('select.tipo').append('<option value="' + tipo.tipo + '">' + tipo.tipo + '</option>');
-        });
-        jQuery('select.tipo').chosen().trigger('liszt:updated');
-    });
-
-    // prepare programas data
-    $.getJSON('constatacoes.json.php?data=programa', function(data) {
-        eduamazonia.programa = data;
-
-        // setup dropdown
-        $.each(eduamazonia.programa, function(i, programa) {
-            $('select.programa').append('<option value="' + programa.programa + '">' + programa.programa_desc + '</option>');
-        });
-        jQuery('select.programa').chosen().trigger('liszt:updated');
-    });
-
-    // prepare cidades data
-    $.getJSON('constatacoes.json.php?data=cidade', function(data) {
-        eduamazonia.cidade = data;
-
-        // setup dropdown
-        $.each(eduamazonia.cidade, function(i, cidade) {
-            $('select.cidade').append('<option value="' + cidade.cidade + '">' + cidade.cidade + ' - ' + cidade.estado + '</option>');
-        });
-        jQuery('select.cidade').chosen().trigger('liszt:updated');
-
-        // setup marker layer
-        var pointLayer = mmg().factory(markerFactory).url('cidades.geojson', function(feat, l) {
-            mmg_interaction(l);
-        });
-        filter_map.addLayer(pointLayer);
-    });
-
-    $('select').chosen({allow_single_deselect:true}).change(function() {
-
-        $('select.filter').each(function() {
-            var filterValue = $(this).find('option:selected').val();
-            var filterKey = $(this).data('type');
-            selectedFilters[filterKey] = filterValue;
-        });
-
-        // navigate map if city
-        if($(this).hasClass('cidade')) {
-            var markerId = $(this).find('option:selected').val();
-            if(markerId) {
-                var lat = $(this).find('option:selected').data('lat');
-                var lon = $(this).find('option:selected').data('lon');
-                navigateFilter(lat, lon, 8, markerId);
-            } else {
-                navigateFilter(-2, -57, 4);
-            }
-        }
-
-        theMagic(selectedFilters);
-
-    });
-
-});
+var currentData = {};
 
 function theMagic(selectedFilters) {
-    var graphsContainer = $('#graphs');
-    graphsContainer.empty();
+
+    var tableData = {};
+
+    var title = '';
+    $.each(selectedFilters, function(filter, filterName) {
+        title += filterName;
+    });
+    if(selectedFilters.cidade && !selectedFilters.programa && !selectedFilters.tipo) {
+        title = selectedFilters.cidade;
+    } else if(selectedFilters.cidade && selectedFilters.programa && !selectedFilters.tipo) {
+        title = selectedFilters.programa + ' em ' + selectedFilters.cidade;
+    } else if(selectedFilters.cidade && selectedFilters.programa && selectedFilters.tipo) {
+        title = selectedFilters.tipo + ' em ' + selectedFilters.programa + ' na cidade de ' + selectedFilters.cidade;
+    } else if(!selectedFilters.cidade && selectedFilters.programa && selectedFilters.tipo) {
+        title = selectedFilters.tipo + ' em ' + selectedFilters.programa;
+    }
+
+    var $resultsContainer = $('#data');
+    var $resultsHeader = $resultsContainer.find('header');
+
+    $resultsHeader
+        .empty()
+        .append('<h2>' + title + '</h2>');
+
+    var $dataTable = $resultsContainer.find('#data-table');
+    $dataTable.empty();
+
+    // LOADING CONTENT
+
+    var $graphsContainer = $resultsContainer.find('#graphs');
+    $graphsContainer.empty();
     // clear select options
     $('select.filter option').attr('disabled', false);
     $('.cidade-marker').show();
@@ -271,8 +308,25 @@ function theMagic(selectedFilters) {
             - programa
             - tipo
         */
-        graphsContainer.append('<div id="graph01" class="graph-container"></div>');
+        $graphsContainer.append('<div id="graph01" class="graph-container"></div>');
         drawCidade(selectedFilters, 'graph01');
+        tableData.programa = currentData.programa;
+
+        // data table
+        var tableContent = '';
+        tableContent += '<table><tbody><tr><th class="n">Número de irregularidades</th><th>Programas do governo</th><th class="m">Média das cidades fiscalizadas</th></tr>';
+        $.each(eduamazonia.programa, function(i, programa) {
+            var itemData = jLinq.from(tableData.programa).starts('programa', programa.programa).select();
+            $.each(itemData, function(key, value) { itemData = value });
+            var count = itemData.count;
+            if(!count) count = '--';
+            var average = Math.ceil(programa.constatacoes/32);
+            tableContent += '<tr><td class="n">' + count + '</td><td>' + programa.programa_desc + '</td><td class="m">' + average + '</td></tr>';
+        });
+        tableContent += '</tbody></table>';
+
+        $dataTable.append(tableContent);
+
     } else if(!selectedFilters.cidade && selectedFilters.tipo && !selectedFilters.programa) {
         /*--TIPO
             gráfico pizza
@@ -280,8 +334,9 @@ function theMagic(selectedFilters) {
             gráfico barra
             - cidade
         */
-        graphsContainer.append('<div id="graph01" class="graph-container"></div><div id="graph02" class="graph-container"></div>');
+        $graphsContainer.append('<div id="graph01" class="graph-container"></div><div id="graph02" class="graph-container"></div>');
         drawPieChart('', selectedFilters, 'programa', 'graph01');
+        tableData.programa = currentData.programa;
         drawColumnChart('', selectedFilters, 'cidade', 'graph02');
     } else if(!selectedFilters.cidade && !selectedFilters.tipo && selectedFilters.programa) {
         /*--PROGRAMA
@@ -290,8 +345,9 @@ function theMagic(selectedFilters) {
             gráfico barra
             - cidade
         */
-        graphsContainer.append('<div id="graph01" class="graph-container"></div><div id="graph02" class="graph-container"></div>');
+        $graphsContainer.append('<div id="graph01" class="graph-container"></div><div id="graph02" class="graph-container"></div>');
         drawPieChart('', selectedFilters, 'tipo', 'graph01');
+        tableData.tipo = currentData.tipo;
         drawColumnChart('', selectedFilters, 'cidade', 'graph02');
     } else if(selectedFilters.cidade && selectedFilters.tipo && !selectedFilters.programa) {
         /*--CIDADE+TIPO
@@ -300,8 +356,9 @@ function theMagic(selectedFilters) {
             gráfico pizza (total)
             - programa
         */
-        graphsContainer.append('<div id="graph01" class="graph-container"></div><div id="graph02" class="graph-container"></div>');
+        $graphsContainer.append('<div id="graph01" class="graph-container"></div><div id="graph02" class="graph-container"></div>');
         drawPieChart('', selectedFilters, 'programa', 'graph01');
+        tableData.programa = currentData.programa;
         selectedFilters.cidade = '';
         drawPieChart('Total', selectedFilters, 'programa', 'graph02');
     } else if(!selectedFilters.cidade && selectedFilters.tipo && selectedFilters.programa) {
@@ -309,8 +366,9 @@ function theMagic(selectedFilters) {
             gráfico barra
             - cidade
         */
-        graphsContainer.append('<div id="graph01" class="graph-container"></div>');
+        $graphsContainer.append('<div id="graph01" class="graph-container"></div>');
         drawColumnChart('', selectedFilters, 'cidade', 'graph01');
+        tableData.cidade = currentData.cidade;
     } else if(selectedFilters.cidade && !selectedFilters.tipo && selectedFilters.programa) {
         /*--CIDADE+PROGRAMA
             gráfico pizza
@@ -318,8 +376,9 @@ function theMagic(selectedFilters) {
             gráfico pizza (total)
             - tipo
         */
-        graphsContainer.append('<div id="graph01"></div><div id="graph02"></div>');
+        $graphsContainer.append('<div id="graph01"></div><div id="graph02"></div>');
         drawPieChart('Filtro', selectedFilters, 'tipo', 'graph01');
+        tableData.tipo = currentData.tipo;
         selectedFilters.cidade = '';
         drawPieChart('Total', selectedFilters, 'tipo', 'graph02');
     } else if(selectedFilters.cidade && selectedFilters.tipo && selectedFilters.programa) {
@@ -338,15 +397,15 @@ function getIrregularidadesCount(filters) {
 }
 
 function getAvailableData(filters, categories) {
-    var availableData = {};
+    currentData = {};
     if(categories instanceof Array) {
         $.each(categories, function(i, category) {
-            availableData[category] = getCategoryAvailableData(filters, category);
+            currentData[category] = getCategoryAvailableData(filters, category);
         });
     } else {
-        availableData[categories] = getCategoryAvailableData(filters, categories);
+        currentData[categories] = getCategoryAvailableData(filters, categories);
     }
-    return availableData;
+    return currentData;
 }
 
 function getCategoryAvailableData(filters, category) {
@@ -479,8 +538,7 @@ function drawColumnChart(title, filters, categories, containerId) {
             title: title,
             width: 450,
             height: 500,
-            backgroundColor: 'transparent',
-            vAxis: {title:'Irregularidades'}
+            backgroundColor: 'transparent'
         },
         containerId: containerId
     });
@@ -496,7 +554,6 @@ function drawCidade(cidade, containerId) {
             width:450,
             height:400,
             backgroundColor: 'transparent',
-            vAxis: {title: 'Irregularidades'},
             hAxis: {title: 'Programa'},
             seriesType: 'bars',
             isStacked: true
@@ -592,18 +649,3 @@ $(document).ready(function() {
 
 })(jQuery);
 
-// prepare links
-
-$(document).ready(function() {
-    $('nav#main-nav a').click(function() {
-        var section = $(this).data('section');
-        if(section) {
-            $('.main-section').hide();
-            $('#' + section).show();
-            return false;
-        }
-    });
-});
-
-function loadSection(section) {
-}
