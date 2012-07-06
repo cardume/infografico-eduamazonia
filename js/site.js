@@ -18,11 +18,28 @@ var tilejson = {
         'http://maps.cardume.art.br/v2/eduamazonia/{z}/{x}/{y}.grid.json'
     ],
     formatter: function(options, data) {
-        return data
+        var tooltip = '';
+        tooltip += '<div class="cidade-teaser dynamic-tip">';
+        tooltip += '<h2>' + data.cidade + '</h2>';
+        tooltip += '<h3>' + data.estado + '</h3>';
+        tooltip += '<p class="total">';
+        tooltip += '<span class="head">total de</span>';
+        tooltip += '<span class="n">' + data.constatacoes + '</span>';
+        tooltip += '<span class="foot">irregularidades</span>';
+        tooltip += '</p>';
+        tooltip += '<ul class="tipos">';
+        if(data.despesa_irregular) tooltip += '<li><span>' + data.despesa_irregular + '</span> em despesa irregular</li>';
+        if(data.desvio_de_finalidade) tooltip += '<li><span>' + data.desvio_de_finalidade + '</span> em desvio de finalidade</li>';
+        if(data.falta_de_controle_administrativo) tooltip += '<li><span>' + data.falta_de_controle_administrativo + '</span> em falta de controle administrativo</li>';
+        if(data.falta_de_controle_social) tooltip += '<li><span>' + data.falta_de_controle_social + '</span> em falta de controle social</li>';
+        if(data.falta_de_prestacao_de_contas) tooltip += '<li><span>' + data.falta_de_prestacao_de_contas + '</span> em falta de prestação de contas</li>';
+        tooltip += '</ul>';
+        tooltip += '</div>';
+        return tooltip;
     }
 }
 
-jQuery(document).ready(function() {
+$(document).ready(function() {
     layer = new wax.mm.connector(tilejson);
     m = new MM.Map('map', new wax.mm.connector(tilejson), null, [
         easey.DragHandler(),
@@ -36,13 +53,20 @@ jQuery(document).ready(function() {
     wax.mm.interaction()
         .map(m)
         .tilejson(tilejson)
-        .on(wax.tooltip().animate(true).parent(m.parent).events());
-    //wax.mm.legend(m, tilejson).appendTo(m.parent);
+        .on(wax.tooltip().animate(true).parent(m.parent).events())
+        .on({
+            on: function() {
+                $('.default-tip').hide();
+            },
+            off: function() {
+                $('.default-tip').show();
+            }
+        });
 
     var minZoom = 4;
     var maxZoom = 8;
     var topLeft = new MM.Location(9, -75);
-    var bottomRight = new MM.Location(-28, -4);
+    var bottomRight = new MM.Location(-37, -4);
 
     // -76.1133,-17.8115,-38.1445,6.3153
 
@@ -91,8 +115,8 @@ jQuery(document).ready(function() {
 
     var minZoom = 4;
     var maxZoom = 8;
-    var topLeft = new MM.Location(7, -77);
-    var bottomRight = new MM.Location(-18, -43);
+    var topLeft = new MM.Location(6, -77);
+    var bottomRight = new MM.Location(-15, -43);
 
     filter_map.setZoomRange(minZoom,maxZoom);
     
@@ -247,7 +271,7 @@ function theMagic(selectedFilters) {
             - programa
             - tipo
         */
-        graphsContainer.append('<div id="graph01"></div>');
+        graphsContainer.append('<div id="graph01" class="graph-container"></div>');
         drawCidade(selectedFilters, 'graph01');
     } else if(!selectedFilters.cidade && selectedFilters.tipo && !selectedFilters.programa) {
         /*--TIPO
@@ -256,7 +280,7 @@ function theMagic(selectedFilters) {
             gráfico barra
             - cidade
         */
-        graphsContainer.append('<div id="graph01"></div><div id="graph02"></div>');
+        graphsContainer.append('<div id="graph01" class="graph-container"></div><div id="graph02" class="graph-container"></div>');
         drawPieChart('', selectedFilters, 'programa', 'graph01');
         drawColumnChart('', selectedFilters, 'cidade', 'graph02');
     } else if(!selectedFilters.cidade && !selectedFilters.tipo && selectedFilters.programa) {
@@ -266,7 +290,7 @@ function theMagic(selectedFilters) {
             gráfico barra
             - cidade
         */
-        graphsContainer.append('<div id="graph01"></div><div id="graph02"></div>');
+        graphsContainer.append('<div id="graph01" class="graph-container"></div><div id="graph02" class="graph-container"></div>');
         drawPieChart('', selectedFilters, 'tipo', 'graph01');
         drawColumnChart('', selectedFilters, 'cidade', 'graph02');
     } else if(selectedFilters.cidade && selectedFilters.tipo && !selectedFilters.programa) {
@@ -276,7 +300,7 @@ function theMagic(selectedFilters) {
             gráfico pizza (total)
             - programa
         */
-        graphsContainer.append('<div id="graph01"></div><div id="graph02"></div>');
+        graphsContainer.append('<div id="graph01" class="graph-container"></div><div id="graph02" class="graph-container"></div>');
         drawPieChart('', selectedFilters, 'programa', 'graph01');
         selectedFilters.cidade = '';
         drawPieChart('Total', selectedFilters, 'programa', 'graph02');
@@ -285,7 +309,7 @@ function theMagic(selectedFilters) {
             gráfico barra
             - cidade
         */
-        graphsContainer.append('<div id="graph01"></div>');
+        graphsContainer.append('<div id="graph01" class="graph-container"></div>');
         drawColumnChart('', selectedFilters, 'cidade', 'graph01');
     } else if(selectedFilters.cidade && !selectedFilters.tipo && selectedFilters.programa) {
         /*--CIDADE+PROGRAMA
@@ -437,7 +461,7 @@ function drawPieChart(title, filters, categories, containerId) {
         dataTable: getPieGraphData(filters, categories),
         options: {
             title: title,
-            width: 473,
+            width: 450,
             height: 400,
             backgroundColor: 'transparent'
         },
@@ -453,7 +477,7 @@ function drawColumnChart(title, filters, categories, containerId) {
         dataTable: getColumnGraphData(filters, categories),
         options: {
             title: title,
-            width: 500,
+            width: 450,
             height: 500,
             backgroundColor: 'transparent',
             vAxis: {title:'Irregularidades'}
@@ -469,8 +493,7 @@ function drawCidade(cidade, containerId) {
         chartType: 'ComboChart',
         dataTable: getCidadeGraphData(cidade),
         options: {
-            title:'Irregularidades na cidade',
-            width:473,
+            width:450,
             height:400,
             backgroundColor: 'transparent',
             vAxis: {title: 'Irregularidades'},
@@ -482,4 +505,105 @@ function drawCidade(cidade, containerId) {
     });
     wrapper.draw();
     return;
+}
+
+/* CAROUSEL */
+
+$(document).ready(function() {
+    $('#carousel').carousel({
+        slideSpeed: 700,
+    });
+});
+
+(function($) {
+
+    $.fn.carousel = function(options) {
+
+        // prepare container
+        var $carouselContainer = $(this);
+        var $carouselController = $(this).find('nav');
+        var carouselID = $carouselContainer.attr('id');
+        var slideSpeed = options.slideSpeed;
+        var slideCount = $carouselContainer.find('.carousel-content > li').length;
+
+        $carouselContainer.find('.carousel-content').each(function() {
+            var slideWidth = $(this).find('> li').width();
+            var carouselContainerWidth = slideWidth * slideCount;
+            $(this).width(carouselContainerWidth);
+        });
+
+        $carouselController.find('a').click(function() {
+            goToSlide($(this).parent().data('slide'));
+            if(options.autoRotate)
+                $.doTimeout(carouselID, slideTimer, function() { nextSlide(); return true; });
+            return false;
+        });
+
+        if(options.autoRotate) $.doTimeout(carouselID, slideTimer, function() { nextSlide(); return true; });
+
+        function goToSlide(slideRef) {
+            $carouselController.find('li').removeClass('active');
+            $carouselController.find("[data-slide='" + slideRef + "']").addClass('active');
+
+            var $slideToGo = $('.carousel-content').find("[data-slide='" + slideRef + "']");
+            var slidePosition = $slideToGo.position();
+            var slideLeftOffset = slidePosition.left;
+
+            $carouselContainer.find('.carousel-content').stop().animate({
+                left: -slideLeftOffset
+            }, slideSpeed);
+        }
+
+        $carouselContainer.find('.next').click(function() {
+            nextSlide();
+            return false;
+        });
+
+        $carouselContainer.find('.prev').click(function() {
+            prevSlide();
+            return false;
+        });
+
+        function nextSlide() {
+            var currentSlideID = $carouselController.find('li.active').data('slide');
+            var $nextSlide = $carouselContainer.find("[data-slide='" + currentSlideID + "']").next();
+
+            if($nextSlide.length)
+                var nextSlideID = $nextSlide.data('slide');
+            else
+                var nextSlideID = $carouselContainer.find('li:nth-child(1)').data('slide');
+
+            goToSlide(nextSlideID);
+        }
+
+        function prevSlide() {
+            var currentSlideID = $carouselController.find('li.active').data('slide');
+            var $nextSlide = $carouselContainer.find("[data-slide='" + currentSlideID + "']").prev();
+
+            if($nextSlide.length)
+                var nextSlideID = $nextSlide.data('slide');
+            else
+                var nextSlideID = $carouselContainer.find('li:last-child').data('slide');
+
+            goToSlide(nextSlideID);            
+        }
+
+    };
+
+})(jQuery);
+
+// prepare links
+
+$(document).ready(function() {
+    $('nav#main-nav a').click(function() {
+        var section = $(this).data('section');
+        if(section) {
+            $('.main-section').hide();
+            $('#' + section).show();
+            return false;
+        }
+    });
+});
+
+function loadSection(section) {
 }

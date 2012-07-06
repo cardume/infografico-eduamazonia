@@ -44,8 +44,8 @@ table { border-collapse: collapse; border-spacing: 0; }
 --------------------------------------------------------- */
 
 body {
-  font-size: 15px;
-  font-family: Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  font-family: 'Ubuntu Condensed';
   color: #333;
   background: url(img/bg.jpg);
 }
@@ -60,9 +60,28 @@ p {
   padding: 0 0 10px 0;
   }
 
+p.alignright {
+  text-align: right;
+}
+
+.small {
+  font-size: 16px;
+}
+
 a {
-  color: #489;
+  color: #000;
+  text-decoration: underline;
   }
+
+a:hover {
+  text-decoration: none;
+}
+
+.clearfix {
+  width: 100%;
+  height: 1px;
+  clear: both;
+}
 
 /* --------------------------------------------------------
   Layout
@@ -124,7 +143,6 @@ header nav ul li {
 }
 
 header nav ul li a {
-  font-family: 'Ubuntu Condensed';
   font-size: 24px;
   line-height: 49px;
   text-decoration: none;
@@ -137,9 +155,10 @@ header nav ul li a:hover {
 
 section#main {
   margin: 20px 24px 20px 20px;
-  padding: 35px 25px;
+  padding: 25px 25px;
   background: url(img/content_bg.jpg);
   position: relative;
+  height: 611px;
 }
 
 section#main:before {
@@ -191,7 +210,7 @@ section#visao-geral nav ul li:hover a {
 #carousel .prev {
   width: 49px;
   height: 88px;
-  background: url(img/carousel_arrow_left.jpg);
+  background: url(img/carousel_arrow_left.jpg) 0 0 no-repeat;
   top: -9px;
   left: 6px;
   text-indent: -9999px;
@@ -201,9 +220,9 @@ section#visao-geral nav ul li:hover a {
 }
 
 #carousel .next {
-  width: 50px;
+  width: 49px;
   height: 88px;
-  background: url(img/carousel_arrow_right.jpg);
+  background: url(img/carousel_arrow_right2.jpg);
   top: -10px;
   right: -10px;
   text-indent: -9999px;
@@ -212,14 +231,41 @@ section#visao-geral nav ul li:hover a {
   z-index: 2;
 }
 
+#carousel .prev:hover,
+#carousel .next:hover {
+  background-position: 0 -88px;
+}
+
+#carousel .prev:active,
+#carousel .next:active {
+  background-position: 0 -176px;
+}
+
 #carousel #map {
   width: 100%;
-  height: 400px;
-  margin: 20px 0;
+  height: 549px;
+}
+
+#carousel .carousel-wrapper {
+  width: 866px;
+  height: 549px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+#carousel ul.carousel-content {
+  position: relative;
 }
 
 #carousel ul.carousel-content > li {
+  width: 866px;
+  float: left;
   position: relative;
+}
+
+#carousel .mapa .cidade-teaser.dynamic-tip {
+  opacity: 1;
+  z-index:1;
 }
 
 #carousel .mapa .cidade-teaser {
@@ -227,9 +273,8 @@ section#visao-geral nav ul li:hover a {
   position:absolute;
   -webkit-user-select:auto;
   right:20px;
-  top:20px;
+  top:60px;
   max-width:300px;
-  opacity:1;
   background: #efebea;
   width: 270px;
   padding: 20px;
@@ -276,6 +321,102 @@ section#navegue {
   display: none;
 }
 
+section#navegue #filters {
+  width: 390px;
+  float: left;
+}
+
+section#navegue #filters > li {
+}
+
+section#navegue #filters h2 {
+  background: url(img/filter_title_bg.jpg) top repeat-x;
+  line-height: 60px;
+  text-align: center;
+  font-family: 'Amatic SC';
+  font-weight: 700;
+  font-size: 30px;
+  margin: 0;
+}
+
+section#navegue #filters select {
+  width: 390px;
+}
+
+section#navegue #filters .chzn-container {
+  margin: 0;
+  font-size: 16px;
+  display: block;
+  outline: 0;
+}
+
+section#navegue #filters .chzn-container .chzn-single {
+  background: transparent;
+  border: 0;
+  padding: 13px 10px;
+}
+
+
+section#navegue #filters .chzn-container .chzn-results .highlighted {
+  background: #faca2c;
+}
+
+.chzn-container-single .chzn-single div b {
+  background-position: center;
+}
+
+section#navegue #filters .chzn-container .chzn-drop {
+  background: url(img/bg2.jpg);
+}
+
+section#navegue #filter_map {
+  width: 390px;
+  height: 250px;
+  margin: 0 0 20px;
+}
+
+section#navegue #filter_map .cidade-marker {
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  background: url(img/marker.png);
+  position: absolute;
+  cursor: pointer;
+}
+
+section#navegue #filter_map .cidade-marker .cidade-tip {
+  position: absolute;
+  width: 200px;
+  top: -22px;
+  left: -85px;
+  text-align: center;
+  font-size: 16px;
+  display: none;
+  color: #000;
+  font-weight: bold;
+}
+
+section#navegue #filter_map .cidade-marker:hover .cidade-tip,
+section#navegue #filter_map .cidade-marker.active .cidade-tip {
+  display: block;
+}
+
+section#navegue #data {
+  float: right;
+  width: 450px;
+}
+
+section#navegue #data #graphs {
+  position: relative;
+  overflow: hidden;
+  height: 676px;
+}
+
+section#navegue #data .graph-container {
+  margin: -50px 0;
+}
+
 footer {
   width: 100%;
   height: 200px;
@@ -291,7 +432,6 @@ a.zoomer {
   background-color:#fff;
   line-height:30px;
   font-size:20px;
-  z-index:99999;
   text-align:center;
   width:30px;
   height:30px;
@@ -392,36 +532,3 @@ a.zoomer {
 
 
 
-
-
-#filter_map {
-  width: 400px;
-  height: 300px;
-}
-
-#filter_map .cidade-marker {
-  width: 20px;
-  height: 20px;
-  margin-top: -10px;
-  margin-left: -10px;
-  background: url(img/marker.png);
-  position: absolute;
-}
-
-#filter_map .cidade-marker .cidade-tip {
-  position: absolute;
-  width: 200px;
-  top: -13px;
-  left: -100px;
-  text-align: center;
-  font-size: 12px;
-  display: none;
-  color: #000;
-  text-shadow: 1px 1px 2px #fff;
-  font-weight: bold;
-}
-
-#filter_map .cidade-marker:hover .cidade-tip,
-#filter_map .cidade-marker.active .cidade-tip {
-  display: block;
-}

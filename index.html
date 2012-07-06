@@ -8,6 +8,7 @@
     <title>Educação na Amazônia</title>
     <link href='http://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Ubuntu+Condensed' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
     <link href='site.css' rel='stylesheet'>
     <link href='js/chosen.css' rel='stylesheet'>
     <link href='js/mmg.css' rel='stylesheet'>
@@ -32,65 +33,86 @@
         <h1>Título do infográfico 2</h1>
         <nav id="main-nav">
             <ul>
-                <li><a href="#">Visão Geral</a></li>
-                <li><a href="#">Navegue pelos dados</a></li>
+                <li><a href="#" data-section="visao-geral">Visão Geral</a></li>
+                <li><a href="#" data-section="navegue">Navegue pelos dados</a></li>
                 <li><a href="#">Copie os dados</a></li>
             </ul>
         </nav>
     </header>
     <div class="wrapper">
         <section id="main">
-            <section id="visao-geral">
-                <nav id="visao-geral-nav">
-                    <ul>
-                        <li class="active"><a href="#">Mapa</a></li>
-                        <li><a href="#">Programas do governo</a></li>
-                        <li><a href="#">Tipos de irregularidade</a></li>
-                        <li><a href="#">Reportagem</a></li>
-                    </ul>
-                </nav>
+            <section id="visao-geral" class="main-section">
                 <div id="carousel">
+                    <nav id="visao-geral-nav">
+                        <ul>
+                            <li class="active" data-slide="mapa"><a href="#">Mapa</a></li>
+                            <li data-slide="programas"><a href="#">Programas do governo</a></li>
+                            <li data-slide="tipos"><a href="#">Tipos de irregularidade</a></li>
+                            <li data-slide="reportagem"><a href="#">Reportagem</a></li>
+                        </ul>
+                    </nav>
+                    <div class="clearfix"></div>
                     <a href="#" title="Voltar" class="prev">Voltar</a>
                     <a href="#" title="Avançar" class="next">Avançar</a>
-                    <ul class="carousel-content">
-                        <li class="mapa">
-                            <div id="map" class="fullscreen"></div>
-                            <div class="default-tip">
-                                <div class="cidade-teaser">
-                                    <h2>Região norte</h2>
-                                    <p class="total">
-                                        <span class="head">total de</span>
-                                        <span class="n">619</span>
-                                        <span class="foot">irregularidades</span>
-                                    </p>
-                                    <ul class="tipos">
-                                        <li><span>193</span> em despesa irregular</li>
-                                        <li><span>25</span> em desvio de finalidade</li>
-                                        <li><span>241</span> em falta de controle administrativo</li>
-                                        <li><span>57</span> em falta de controle social</li>
-                                        <li><span>103</span> em falta de prestação de contas</li>
-                                    </ul>
+                    <div class="carousel-wrapper">
+                        <ul class="carousel-content">
+                            <li class="mapa" data-slide="mapa">
+                                <div id="map" class="fullscreen"></div>
+                                <div class="default-tip">
+                                    <div class="cidade-teaser">
+                                        <h2>Região norte</h2>
+                                        <p class="total">
+                                            <span class="head">total de</span>
+                                            <span class="n">619</span>
+                                            <span class="foot">irregularidades</span>
+                                        </p>
+                                        <ul class="tipos">
+                                            <li><span>193</span> em despesa irregular</li>
+                                            <li><span>25</span> em desvio de finalidade</li>
+                                            <li><span>241</span> em falta de controle administrativo</li>
+                                            <li><span>57</span> em falta de controle social</li>
+                                            <li><span>103</span> em falta de prestação de contas</li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                    </ul>
+                            </li>
+                            <li class="programas" data-slide="programas">
+                                <p>Número de irregularidades por programa de governo</p>
+                                <img src="img/grafico_geral_programas.jpg" alt="Número de irregularidades por programa de governo" />
+                                <p class="alignright"><a href="#" class="small">Veja os nomes oficiais dos programas</a></p>
+                            </li>
+                            <li class="programas" data-slide="tipos">
+                                <p>Número de irregularidades por tipo</p>
+                                <img src="img/grafico_geral_tipos.jpg" alt="Número de irregularidades por tipo" />
+                            </li>
+                            <li class="programas" data-slide="reportagem">
+                            </li>
+                        </ul>
+                    </div>
                 </div>
+                <div class="clearfix"></div>
             </section>
-            <section id="navegue">
+            <section id="navegue" class="main-section">
                 <ul id="filters">
                     <li>
-                        <select class="filter cidade" data-type="cidade" data-placeholder="Escolha uma cidade..." style="width:350px;" class="chzn-select"><option value></option></select>
+                        <h2>Cidades</h2>
+                        <select class="filter cidade" data-type="cidade" data-placeholder="Clique para escolher uma cidade" class="chzn-select"><option value></option></select>
                         <div id="filter_map"></div>
                     </li>
                     <li>
-                        <select class="filter programa" data-type="programa" data-placeholder="Escolha um programa..." style="width:350px;" class="chzn-select"><option value></option></select>
+                        <h2>Programas do governo</h2>
+                        <select class="filter programa" data-type="programa" data-placeholder="Clique para escolher um programa" class="chzn-select"><option value></option></select>
                     </li>
                     <li>
-                        <select class="filter tipo" data-type="tipo" data-placeholder="Escolha um tipo de irregularidade..." style="width:350px;" class="chzn-select"><option value></option></select>
+                        <h2>Tipos de irregularidade</h2>
+                        <select class="filter tipo" data-type="tipo" data-placeholder="Clique para escolher um tipo de irregularidade" class="chzn-select"><option value></option></select>
                     </li>
                 </ul>
-                <div id="graphs">
-                </div>
+                <section id="data">
+                    <div id="graphs">
+                    </div>
+                </section>
+                <div class="clearfix"></div>
             </section>
         </section>
         <footer>
