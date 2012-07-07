@@ -445,6 +445,7 @@ section#navegue #data-table table tr th {
   border: 1px solid #fff;
   background: #eee;
   vertical-align: middle;
+  text-transform: uppercase;
 }
 
 section#navegue #data-table table tr th.n {
@@ -473,6 +474,37 @@ section#navegue #data-table table tr td.m {
   font-size: 16px;
   font-weight: bold;
 }
+
+section#navegue #data-table table tr.total,
+section#navegue #data-table table tr.total td.n,
+section#navegue #data-table table tr.total td.m {
+  background-color: #e5c1b3;
+  color: #c33132 !important;
+}
+
+section#navegue #data h3 {
+  margin: 20px 0 5px 0;
+}
+
+section#navegue #data-table table th.total,
+section#navegue #data-table table td.total {
+  background: #e5c1b3;
+  color: #c33132;
+  font-weight: bold;
+  border: 0;
+}
+
+section#navegue #data-table table td.total {
+  font-size: 92px;
+}
+
+section#navegue #data-table table td.total span {
+  font-size: 12px;
+  display:block;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
 footer {
   width: 100%;
   height: 200px;

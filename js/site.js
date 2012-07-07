@@ -95,6 +95,18 @@ $(document).ready(function() {
     });
 });
 
+// prepare data navigation core
+
+// load graph core
+google.load('visualization', '1', {packages: ['corechart']});
+
+// declare data vars
+var irregularidadesData;
+var currentData;
+var eduamazonia = {};
+var selectedFilters = {};
+var categories = [];
+
 var sectionLoaded = {};
 sectionLoaded.navegue = false;
 
@@ -147,10 +159,18 @@ function loadSection(section) {
         // select change event
         $('select').chosen({allow_single_deselect:true}).change(function() {
 
+            categories = [];
+            i = 0;
             $('select.filter').each(function() {
                 var filterValue = $(this).find('option:selected').val();
                 var filterKey = $(this).data('type');
-                selectedFilters[filterKey] = filterValue;
+                if(filterValue) {
+                    selectedFilters[filterKey] = filterValue;
+                } else {
+                    categories[i] = filterKey;
+                    delete selectedFilters[filterKey];
+                    i++;
+                }
             });
 
             // navigate map if city
@@ -164,8 +184,60 @@ function loadSection(section) {
                     navigateFilter(-2, -57, 4);
                 }
             }
-            theMagic(selectedFilters);
+
+            if(!$.isEmptyObject(selectedFilters)) {
+                updateCurrentData();
+            }
+            updateSelectOptions();
+            theMagic();
         });
+
+        function updateSelectOptions() {
+            if($.isEmptyObject(selectedFilters)) {
+                $('select.filter option').attr('disabled', false);
+                $('.cidade-marker').show();
+                $('select.filter').chosen().trigger('liszt:updated');
+            } else {
+                $.each(categories, function(i, category) {
+                    $('select.' + category + ' option').attr('disabled', true);
+                    if(category == 'cidade')
+                        $('.cidade-marker').hide();
+                    $.each(currentData[category], function(key, data) {
+                        var $option = $('select.' + category + ' option[value="' + data[category] + '"]');
+                        $option.attr('disabled', false);
+                        if(category == 'cidade')
+                            $('.cidade-marker[data-cidade="' + data[category] + '"]').show();
+                    });
+                    $('select.' + category).chosen().trigger('liszt:updated');
+                });
+            }
+        }
+
+        function updateCurrentData() {
+            currentData = {};
+            $.each(categories, function(i, category) {
+                currentData[category] = getCategoryCurrentData(selectedFilters, category);
+            });
+        }
+
+        function getCategoryCurrentData(filters, category) {
+            var availableCategoryData = [];
+            var i = 0;
+            $.each(eduamazonia[category], function(key, value) {
+                var filtering = {};
+                var count;
+                filtering[category] = value[category];
+                var mixedFilter = $.extend({}, filters, filtering);
+                count = getIrregularidadesCount(mixedFilter);
+                if(count >= 1) {
+                    availableCategoryData[i] = value;
+                    availableCategoryData[i].count = count;
+                    i++;
+                }
+            });
+            var sortedData = jLinq.from(availableCategoryData).sort('-count').select();
+            return sortedData;
+        }
 
         // filter map
 
@@ -249,23 +321,15 @@ function loadSection(section) {
     }
 }
 
+function getIrregularidadesCount(filters) {
+    var data = jLinq.from(irregularidadesData);
+    jQuery.each(filters, function(key, value) {
+        data = data.starts(key, value);
+    });
+    return data.count();
+}
 
-/*
-
-    GRAPHS
-
-*/
-
-// load graph core
-google.load('visualization', '1', {packages: ['corechart']});
-
-// declare data vars
-var irregularidadesData;
-var eduamazonia = {};
-var selectedFilters = {};
-var currentData = {};
-
-function theMagic(selectedFilters) {
+function theMagic() {
 
     var tableData = {};
 
@@ -298,9 +362,6 @@ function theMagic(selectedFilters) {
     var $graphsContainer = $resultsContainer.find('#graphs');
     $graphsContainer.empty();
     // clear select options
-    $('select.filter option').attr('disabled', false);
-    $('.cidade-marker').show();
-    $('select.filter').chosen().trigger('liszt:updated');
 
     if(selectedFilters.cidade && !selectedFilters.tipo && !selectedFilters.programa) {
         /*--CIDADE
@@ -310,19 +371,25 @@ function theMagic(selectedFilters) {
         */
         $graphsContainer.append('<div id="graph01" class="graph-container"></div>');
         drawCidade(selectedFilters, 'graph01');
+        $('#graph01').before('<h3>Irregularidades por programa na cidade</h3>');
         tableData.programa = currentData.programa;
 
         // data table
         var tableContent = '';
         tableContent += '<table><tbody><tr><th class="n">Número de irregularidades</th><th>Programas do governo</th><th class="m">Média das cidades fiscalizadas</th></tr>';
+        var totalCount = 0;
+        var totalAverage = 0;
         $.each(eduamazonia.programa, function(i, programa) {
             var itemData = jLinq.from(tableData.programa).starts('programa', programa.programa).select();
             $.each(itemData, function(key, value) { itemData = value });
             var count = itemData.count;
             if(!count) count = '--';
+            else totalCount = totalCount + count;
             var average = Math.ceil(programa.constatacoes/32);
+            totalAverage = Math.ceil(totalAverage + (programa.constatacoes/32));
             tableContent += '<tr><td class="n">' + count + '</td><td>' + programa.programa_desc + '</td><td class="m">' + average + '</td></tr>';
         });
+        tableContent += '<tr class="total"><td class="n">' + totalCount + '</td><td>TOTAL</td><td class="m">' + totalAverage + '</td></tr>';
         tableContent += '</tbody></table>';
 
         $dataTable.append(tableContent);
@@ -338,6 +405,26 @@ function theMagic(selectedFilters) {
         drawPieChart('', selectedFilters, 'programa', 'graph01');
         tableData.programa = currentData.programa;
         drawColumnChart('', selectedFilters, 'cidade', 'graph02');
+
+        // data table
+        var tableContent = '';
+        tableContent += '<table><tbody><tr><th class="total">Total</th><th>Programas</th><th></th></tr>';
+        var totalCount = 0;
+        var totalAverage = 0;
+        tableContent += '<tr><td rowspan="10" class="total"></td></tr>';
+        $.each(eduamazonia.programa, function(i, programa) {
+            var itemData = jLinq.from(tableData.programa).starts('programa', programa.programa).select();
+            $.each(itemData, function(key, value) { itemData = value });
+            var count = itemData.count;
+            if(!count) count = '--';
+            else totalCount = totalCount + count;
+            tableContent += '<tr><td>' + programa.programa_desc + '</td><td class="n">' + count + '</td></tr>';
+        });
+        tableContent += '</tbody></table>';
+
+        $dataTable.append(tableContent);
+        $dataTable.find('td.total').text(totalCount);
+        $dataTable.find('td.total').append('<span>irregularidades</span>');
     } else if(!selectedFilters.cidade && !selectedFilters.tipo && selectedFilters.programa) {
         /*--PROGRAMA
             gráfico pizza
@@ -349,6 +436,26 @@ function theMagic(selectedFilters) {
         drawPieChart('', selectedFilters, 'tipo', 'graph01');
         tableData.tipo = currentData.tipo;
         drawColumnChart('', selectedFilters, 'cidade', 'graph02');
+
+        // data table
+        var tableContent = '';
+        tableContent += '<table><tbody><tr><th class="total">Total</th><th>Tipos de irregularidades</th><th></th></tr>';
+        var totalCount = 0;
+        var totalAverage = 0;
+        tableContent += '<tr><td rowspan="6" class="total"></td></tr>';
+        $.each(eduamazonia.tipo, function(i, tipo) {
+            var itemData = jLinq.from(tableData.tipo).starts('tipo', tipo.tipo).select();
+            $.each(itemData, function(key, value) { itemData = value });
+            var count = itemData.count;
+            if(!count) count = '--';
+            else totalCount = totalCount + count;
+            tableContent += '<tr><td>' + tipo.tipo + '</td><td class="n">' + count + '</td></tr>';
+        });
+        tableContent += '</tbody></table>';
+
+        $dataTable.append(tableContent);
+        $dataTable.find('td.total').text(totalCount);
+        $dataTable.find('td.total').append('<span>irregularidades</span>');
     } else if(selectedFilters.cidade && selectedFilters.tipo && !selectedFilters.programa) {
         /*--CIDADE+TIPO
             gráfico pizza
@@ -379,8 +486,28 @@ function theMagic(selectedFilters) {
         $graphsContainer.append('<div id="graph01"></div><div id="graph02"></div>');
         drawPieChart('Filtro', selectedFilters, 'tipo', 'graph01');
         tableData.tipo = currentData.tipo;
-        selectedFilters.cidade = '';
+        console.log(tableData);
         drawPieChart('Total', selectedFilters, 'tipo', 'graph02');
+
+        // data table
+        var tableContent = '';
+        tableContent += '<table><tbody><tr><th class="total">Total</th><th>Tipos de irregularidades</th><th></th></tr>';
+        var totalCount = 0;
+        var totalAverage = 0;
+        tableContent += '<tr><td rowspan="6" class="total"></td></tr>';
+        $.each(eduamazonia.tipo, function(i, tipo) {
+            var itemData = jLinq.from(tableData.tipo).starts('tipo', tipo.tipo).select();
+            $.each(itemData, function(key, value) { itemData = value });
+            var count = itemData.count;
+            if(!count) count = '--';
+            else totalCount = totalCount + count;
+            tableContent += '<tr><td>' + tipo.tipo + '</td><td class="n">' + count + '</td></tr>';
+        });
+        tableContent += '</tbody></table>';
+
+        $dataTable.append(tableContent);
+        $dataTable.find('td.total').text(totalCount);
+        $dataTable.find('td.total').append('<span>irregularidades</span>');
     } else if(selectedFilters.cidade && selectedFilters.tipo && selectedFilters.programa) {
         /*--CIDADE+TIPO+PROGRAMA
             só lista
@@ -388,65 +515,23 @@ function theMagic(selectedFilters) {
     }
 }
 
-function getIrregularidadesCount(filters) {
-    var data = jLinq.from(irregularidadesData);
-    jQuery.each(filters, function(key, value) {
-        data = data.starts(key, value);
-    });
-    return data.count();
-}
-
-function getAvailableData(filters, categories) {
-    currentData = {};
-    if(categories instanceof Array) {
-        $.each(categories, function(i, category) {
-            currentData[category] = getCategoryAvailableData(filters, category);
-        });
-    } else {
-        currentData[categories] = getCategoryAvailableData(filters, categories);
-    }
-    return currentData;
-}
-
-function getCategoryAvailableData(filters, category) {
-    var availableCategoryData = [];
-    var i = 0;
-    $.each(eduamazonia[category], function(key, value) {
-        var filtering = {};
-        var count;
-        filtering[category] = value[category];
-        var mixedFilter = $.extend({}, filters, filtering);
-        count = getIrregularidadesCount(mixedFilter);
-        if(count >= 1) {
-            availableCategoryData[i] = value;
-            availableCategoryData[i].count = count;
-            i++;
-        }
-    });
-    var sortedData = jLinq.from(availableCategoryData).sort('-count').select();
-    return sortedData;
-}
-
 function getCidadeGraphData(filters) {
     var data = [];
     data[0] = [];
 
     var cidade = filters.cidade;
-    var categories = ['programa', 'tipo'];
-
-    var availableData = getAvailableData(filters, categories);
 
     // setup header
     data[0][0] = 'Programa';
-    jQuery.each(availableData.tipo, function(index, tipoData) {
+    jQuery.each(currentData.tipo, function(index, tipoData) {
         data[0][index+1] = tipoData.tipo;
     });
 
     // rows
-    jQuery.each(availableData.programa, function(programaIndex, programaData) {
+    jQuery.each(currentData.programa, function(programaIndex, programaData) {
         data[programaIndex+1] = [];
         data[programaIndex+1][0] = programaData.programa_desc;
-        jQuery.each(availableData.tipo, function(tipoIndex, tipoData) {
+        jQuery.each(currentData.tipo, function(tipoIndex, tipoData) {
             data[programaIndex+1][tipoIndex+1] = getIrregularidadesCount({
                 'programa': programaData.programa,
                 'tipo': tipoData.tipo,
@@ -454,64 +539,33 @@ function getCidadeGraphData(filters) {
             });
         });
     });
-    updateSelectOptions(filters, categories, availableData);
     return data;
 }
 
 function getPieGraphData(filters, category) {
-    var availableData = getAvailableData(filters, category);
     var data = [];
     data[0] = [];
-    if(category == 'tipo') {
-        data[0][0] = 'Tipo';
-    } else if(category == 'programa') {
-        data[0][0] = 'Programa';
-    }
-    if(category == 'cidade') {
-        data[0][0] = 'Cidade';
-    }
-    data[0][1] = 'Irregularidades';
-    jQuery.each(availableData[category], function(i, catData) {
+    data[0][0] = '';
+    data[0][1] = '';
+    jQuery.each(currentData[category], function(i, catData) {
         data[i+1] = [];
         data[i+1][0] = catData[category];
         data[i+1][1] = catData.count;
     });
-    updateSelectOptions(filters, [category], availableData);
     return data;
 }
 
 function getColumnGraphData(filters, category) {
-    var availableData = getAvailableData(filters, category);
     var data = [];
     data[0] = [];
     data[1] = [];
     data[0][0] = '';
     data[1][0] = '';
-    jQuery.each(availableData[category], function(i, catData) {
+    jQuery.each(currentData[category], function(i, catData) {
         data[0][i+1] = catData[category];
         data[1][i+1] = catData.count;
     });
-    updateSelectOptions(filters, [category], availableData);
     return data;
-}
-
-function updateSelectOptions(filters, categories, availableData) {
-    if(categories instanceof String) {
-        categories = [categories];
-    }
-    $.each(categories, function(i, category) {
-        var data = availableData[category];
-        $('select.' + category + ' option').attr('disabled', true);
-        if(category == 'cidade')
-            $('.cidade-marker').hide();
-        $.each(data, function(key, value) {
-            var $option = $('select.' + category + ' option[value="' + value[category] + '"]');
-            $option.attr('disabled', false);
-            if(category == 'cidade')
-                $('.cidade-marker[data-cidade="' + value[category] + '"]').show();
-        });
-        $('select.' + category).chosen().trigger('liszt:updated');
-    });
 }
 
 function drawPieChart(title, filters, categories, containerId) {
@@ -519,7 +573,6 @@ function drawPieChart(title, filters, categories, containerId) {
         chartType: 'PieChart',
         dataTable: getPieGraphData(filters, categories),
         options: {
-            title: title,
             width: 450,
             height: 400,
             backgroundColor: 'transparent'
@@ -535,7 +588,6 @@ function drawColumnChart(title, filters, categories, containerId) {
         chartType: 'ColumnChart',
         dataTable: getColumnGraphData(filters, categories),
         options: {
-            title: title,
             width: 450,
             height: 500,
             backgroundColor: 'transparent'
