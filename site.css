@@ -300,6 +300,7 @@ section#visao-geral nav ul li:hover a {
 
 #carousel ul.carousel-content > li {
   width: 866px;
+  height: 549px;
   float: left;
   position: relative;
 }
@@ -351,6 +352,27 @@ section#visao-geral nav ul li:hover a {
 #carousel .mapa .cidade-teaser .tipos li span {
   font-size: 20px;
   color: #e8851f;
+}
+
+#carousel article {
+  padding: 10px 60px;
+}
+
+#carousel article h2 {
+  margin: 0 0 20px;
+  font-size: 30px;
+}
+
+#carousel article h3 {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 0 20px;
+}
+
+#carousel article p {
+  font-size: 16px;
+  line-height: 20px;
+  margin: 0 0 10px;
 }
 
 section#navegue {
@@ -630,6 +652,59 @@ section#navegue #irregularidades tr:nth-child(odd) {
 section#navegue #irregularidades tr td {
    padding: 10px;
    vertical-align: middle;
+}
+
+
+section#copy {
+  display: none;
+}
+
+section#copy article {
+  padding: 80px 100px;
+}
+
+section#copy article h2 {
+  font-size: 30px;
+  margin: 0 0 20px;
+}
+
+section#copy article table {
+  width: 100%;
+  margin: 0 0 20px;
+}
+
+section#copy article table td {
+  vertical-align: middle;
+}
+
+section#copy article table tr td:first-child {
+  border-bottom: 1px solid #ffe6cc;
+}
+
+section#copy article table td a {
+  display: block;
+  padding: 10px;
+  background: #ffe6cc;
+  color: #e6851e;
+  text-decoration: none;
+  text-align: center;
+  margin: 1px;
+}
+
+section #copy article table td a:hover {
+  background: transparent;
+  color: #000;
+}
+
+section#copy p.github {
+  background: #ffe6cc;
+  color: #e6851e;
+  padding: 20px;
+  font-weight: bold;
+}
+
+section#copy p.github a {
+  color: #000;
 }
 
 footer {

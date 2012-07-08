@@ -36,7 +36,7 @@
             <ul>
                 <li><a href="#" data-section="visao-geral">Visão Geral</a></li>
                 <li><a href="#" data-section="navegue">Navegue pelos dados</a></li>
-                <li><a href="#">Copie os dados</a></li>
+                <li><a href="#" data-section="copy">Copie os dados</a></li>
             </ul>
         </nav>
     </header>
@@ -82,11 +82,27 @@
                                 <img src="img/grafico_geral_programas.jpg" alt="Número de irregularidades por programa de governo" />
                                 <p class="alignright"><a href="#" class="small">Veja os nomes oficiais dos programas</a></p>
                             </li>
-                            <li class="programas" data-slide="tipos">
+                            <li class="tipos" data-slide="tipos">
                                 <p>Número de irregularidades por tipo</p>
                                 <img src="img/grafico_geral_tipos.jpg" alt="Número de irregularidades por tipo" />
                             </li>
-                            <li class="programas" data-slide="reportagem">
+                            <li class="reportagem" data-slide="reportagem">
+                                <article id="reportagem">
+                                    <header>
+                                        <h2>Má gestão, corrupção e descontrole</h2>
+                                    </header>
+                                    <p>O Ministério da Educação gasta bilhões de reais em repasses a estados e municípios para melhorar a educação básica, mas o objetivo não vem sendo atingido. Ao menos na Amazônia, onde os dados sobre desempenho escolar são desanimadores (veja a primeira reportagem desta série). Pior: os recursos estão indo pelo ralo da corrupção e do desperdício.</p>
+                                    <p>A Pública analisou relatórios de auditorias da CGU (Controladoria-Geral da União) realizadas em 2010 e 2011 em 32 cidades de todos os estados da região Norte. Os dados compilados a partir dos relatórios revelam um cenário de má administração, despesas irregulares e falta de prestação de contas. Também aparecem a ausência de controle social e casos de desvios de finalidade.</p>
+                                    <p>Após visitas a cidades do Acre, Amapá, Amazonas, Pará, Rondônia, Roraima e Tocantins, os técnicos da CGU relataram 619 irregularidades, o que resulta numa média de quase 20 irregularidades por município. Do total de problemas detectados, quase 40% referem-se a má gestão; cerca de 30% indicam despesas irregulares (muitos dos fatos anotados têm forte cheiro de corrupção); e 17% apontam ausência de prestação de contas (mais indícios de corrupção...).</p>
+                                    <p>O controle social também é falho em várias localidades. Os relatórios apontam 57 irregularidades nesse campo, indicando que os Conselhos Municipais de Educação – criados para que a sociedade pudesse monitorar as políticas públicas da Educação – não estão funcionando como se pretendia.</p>
+                                    <h3>Problemas na gestão: falta de profissionalismo e de controle</h3>
+                                    <p>Os relatórios analisados pela Pública indicam um quadro de muito despreparo da burocracia nas cidades: foram 241 irregularidades por falta de controle administrativo encontradas, numa média de 7,5 por cidade.</p>
+                                    <p>Estes são alguns dos casos relatados: ineficiência de controle de estoque e de distribuição de alimentos; recursos aplicados fora do prazo; erros na contratação de responsáveis por obras, falha na elaboração de projetos básicos pra creches; falta de controle sobre dados dos veículos e dos condutores nos programas de transporte; inadequação ou ausência de ficha de matrícula dos alunos; falta de conhecimentos técnicos para alimentar o sistema informatizado de distribuição de livros (o que resulta em erros na distribuição de livros didáticos).</p>
+                                    <p>Os relatórios analisados pela Pública indicam um quadro de muito despreparo da burocracia nas cidades: foram 241 irregularidades por falta de controle administrativo encontradas, numa média de 7,5 por cidade.</p>
+                                    <p>Estes são alguns dos casos relatados: ineficiência de controle de estoque e de distribuição de alimentos; recursos aplicados fora do prazo; erros na contratação de responsáveis por obras, falha na elaboração de projetos básicos pra creches; falta de controle sobre dados dos veículos e dos condutores nos programas de transporte; inadequação ou ausência de ficha de matrícula dos alunos; falta de conhecimentos técnicos para alimentar o sistema informatizado de distribuição de livros (o que resulta em erros na distribuição de livros didáticos).</p>
+                                    <p>Os relatórios analisados pela Pública indicam um quadro de muito despreparo da burocracia nas cidades: foram 241 irregularidades por falta de controle administrativo encontradas, numa média de 7,5 por cidade.</p>
+                                    <p>Estes são alguns dos casos relatados: ineficiência de controle de estoque e de distribuição de alimentos; recursos aplicados fora do prazo; erros na contratação de responsáveis por obras, falha na elaboração de projetos básicos pra creches; falta de controle sobre dados dos veículos e dos condutores nos programas de transporte; inadequação ou ausência de ficha de matrícula dos alunos; falta de conhecimentos técnicos para alimentar o sistema informatizado de distribuição de livros (o que resulta em erros na distribuição de livros didáticos).</p>
+                                </article>
                             </li>
                         </ul>
                     </div>
@@ -127,6 +143,42 @@
                     </section>
                 </div>
                 <div class="clearfix"></div>
+            </section>
+            <section id="copy" class="main-section">
+                <article>
+                    <header>
+                        <h2>Copie os dados utilizados no infográfico</h2>
+                    </header>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Lista de irregularidades</td>
+                                <td><a href="http://docs.google.com/spreadsheet/pub?key=0Avi2PVZYFw_2dGdhcFV3SGNpb01BQmN6aHpWSVBOcXc&single=true&gid=0&output=csv" target="_blank">CSV</a></td>
+                                <td><a href="constatacoes.json.php?data=geral" target="_blank">JSON</a></a></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Lista de cidades</td>
+                                <td><a href="https://docs.google.com/spreadsheet/pub?key=0Avi2PVZYFw_2dGdhcFV3SGNpb01BQmN6aHpWSVBOcXc&single=true&gid=3&output=csv" target="_blank">CSV</a></td>
+                                <td><a href="constatacoes.json.php?data=cidade" target="_blank">JSON</a></a></td>
+                                <td><a href="cidades.geojson" target="_blank">GeoJSON</td>
+                            </tr>
+                            <tr>
+                                <td>Lista de tipos de irregularidade</td>
+                                <td><a href="https://docs.google.com/spreadsheet/pub?key=0Avi2PVZYFw_2dGdhcFV3SGNpb01BQmN6aHpWSVBOcXc&single=true&gid=5&output=csv" target="_blank">CSV</a></td>
+                                <td><a href="constatacoes.json.php?data=tipo" target="_blank">JSON</a></a></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Lista de programas do governo</td>
+                                <td><a href="https://docs.google.com/spreadsheet/pub?key=0Avi2PVZYFw_2dGdhcFV3SGNpb01BQmN6aHpWSVBOcXc&single=true&gid=4&output=csv" target="_blank">CSV</a></td>
+                                <td><a href="constatacoes.json.php?data=programa" target="_blank">JSON</a></a></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="github">O código desenvolvido para este infográfico interativo está distribuído sob a <a href="http://www.gnu.org/licenses/gpl-3.0.html" target="_blank">licença GPLv3</a> e disponível para download no seu repositório.<br/><br/> <a href="https://github.com/Cardume/infografico-eduamazonia" target="_blank">Acesse o repositório</a> ou <a href="https://github.com/Cardume/infografico-eduamazonia/zipball/master" target="_blank">faça o download</a></p>
+                </article>
             </section>
         </section>
         <footer>

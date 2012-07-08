@@ -6,7 +6,9 @@ $(document).ready(function() {
     $('#carousel').carousel({
         slideSpeed: 700,
     });
+    $('#carousel .reportagem').jScrollPane();
 });
+
 
 /*
     HOME MAP
