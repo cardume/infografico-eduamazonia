@@ -9,20 +9,21 @@
     <link href='http://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Ubuntu+Condensed' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
-    <link href='site.css' rel='stylesheet'>
-    <link href='js/chosen.css' rel='stylesheet'>
-    <link href='js/mmg.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" media="all" href="js/chosen.css">
+    <link rel="stylesheet" type="text/css" media="all" href="js/mmg.css">
+    <link rel="stylesheet" type="text/css" media="all" href="js/jquery.jscrollpane.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="site.css" rel="stylesheet">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src='js/modestmaps.min.js'></script>
     <script type="text/javascript" src='js/easey.js'></script>
     <script type="text/javascript" src='js/easey.handlers.js'></script>
     <script type="text/javascript" src='js/wax.mm.min.js'></script>
     <script type="text/javascript" src="js/jlinq.js"></script>
-    <script type="text/javascript" src="js/jlinq.jquery.js"></script>
     <script type="text/javascript" src="js/chosen.jquery.js"></script>
     <script type="text/javascript" src="js/mmg.js"></script>
     <script type="text/javascript" src="js/mmg_interaction.js"></script>
-    <script type="text/javascript" src="js/simplestyle_factory.js"></script>
+    <script type="text/javascript" src="js/jquery.mousewheel.js"></script>
+    <script type="text/javascript" src="js/jquery.jscrollpane.min.js"></script>
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script type="text/javascript" src='js/site.js'></script>
 </head>
@@ -108,23 +109,25 @@
                         <select class="filter tipo" data-type="tipo" data-placeholder="Clique para escolher um tipo de irregularidade" class="chzn-select"><option value></option></select>
                     </li>
                 </ul>
-                <section id="data">
-                    <header>
-                        <div class="landing">
-                            <h2>Navegue pelos dados!</h2>
-                            <h3>Selecione ao lado cidade, programa e/ou tipo de irregularidade que deseja filtrar.</h3>
-                            <h3>As opções escolhidas podem ser somadas para cruzar dados e gerar diferentes visualizações.</h3>
-                        </div>
-                        <div class="inside"></div>
-                    </header>
-                    <section id="data-table">
+                <div class="results-container">
+                    <section id="data">
+                        <header>
+                            <div class="landing">
+                                <h2>Navegue pelos dados!</h2>
+                                <h3>Selecione ao lado cidade, programa e/ou tipo de irregularidade que deseja filtrar.</h3>
+                                <h3>As opções escolhidas podem ser somadas para cruzar dados e gerar diferentes visualizações.</h3>
+                            </div>
+                            <div class="inside"></div>
+                        </header>
+                        <section id="data-table">
+                        </section>
+                        <nav id="links">
+                        </nav>
+                        <div class="clearfix"></div>
+                        <section id="graphs">
+                        </section>
                     </section>
-                    <nav id="links">
-                    </nav>
-                    <div class="clearfix"></div>
-                    <section id="graphs">
-                    </section>
-                </section>
+                </div>
                 <div class="clearfix"></div>
             </section>
         </section>

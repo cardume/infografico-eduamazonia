@@ -115,6 +115,8 @@ var eduamazonia = {};
 var selectedFilters = {};
 var categories = [];
 
+var resultsScrollApi;
+
 var sectionLoaded = {};
 sectionLoaded.navegue = false;
 
@@ -193,6 +195,13 @@ function loadSection(section) {
                     navigateFilter(-2, -57, 4);
                 }
             }
+
+            var scrollSettings = {
+                maintainPosition: false
+            };
+            var scrollPane = $('#navegue #data');
+            scrollPane.jScrollPane(scrollSettings);
+            resultsScrollApi = scrollPane.data('jsp');
 
             // update with new output data and select options
             if(!$.isEmptyObject(selectedFilters)) {
@@ -354,6 +363,7 @@ function theMagic() {
 
     if($.isEmptyObject(selectedFilters)) {
         $resultsContainer.find('.landing').show();
+        resultsScrollApi.reinitialise();
         return false;
     } else $resultsContainer.find('.landing').hide();
 
@@ -587,6 +597,8 @@ function theMagic() {
             só lista
         */
     }
+
+    resultsScrollApi.reinitialise();
 }
 
 function getCidadeGraphData(filters) {
