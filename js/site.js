@@ -1,5 +1,13 @@
 /* SITE SETUP */
 
+/* CAROUSEL */
+
+$(document).ready(function() {
+    $('#carousel').carousel({
+        slideSpeed: 700,
+    });
+});
+
 /*
     HOME MAP
 
@@ -156,6 +164,7 @@ function loadSection(section) {
             });
             filter_map.addLayer(pointLayer);
         });
+
         // select change event
         $('select').chosen({allow_single_deselect:true}).change(function() {
 
@@ -173,7 +182,7 @@ function loadSection(section) {
                 }
             });
 
-            // navigate map if city
+            // navigate map if city selected
             if($(this).hasClass('cidade')) {
                 var markerId = $(this).find('option:selected').val();
                 if(markerId) {
@@ -185,6 +194,7 @@ function loadSection(section) {
                 }
             }
 
+            // update with new output data and select options
             if(!$.isEmptyObject(selectedFilters)) {
                 updateCurrentData();
             }
@@ -331,6 +341,22 @@ function getIrregularidadesCount(filters) {
 
 function theMagic() {
 
+    var $resultsContainer = $('#data');
+    var $resultsHeader = $resultsContainer.find('header .inside');
+    var $dataTable = $resultsContainer.find('#data-table');
+    var $links = $resultsContainer.find('#links');
+    var $graphsContainer = $resultsContainer.find('#graphs');
+
+    $resultsHeader.empty();
+    $dataTable.empty();
+    $links.empty();
+    $graphsContainer.empty();
+
+    if($.isEmptyObject(selectedFilters)) {
+        $resultsContainer.find('.landing').show();
+        return false;
+    } else $resultsContainer.find('.landing').hide();
+
     var tableData = {};
 
     var title = '';
@@ -340,28 +366,18 @@ function theMagic() {
     if(selectedFilters.cidade && !selectedFilters.programa && !selectedFilters.tipo) {
         title = selectedFilters.cidade;
     } else if(selectedFilters.cidade && selectedFilters.programa && !selectedFilters.tipo) {
-        title = selectedFilters.programa + ' em ' + selectedFilters.cidade;
+        title = selectedFilters.programa + ' na cidade de ' + selectedFilters.cidade;
+    } else if(selectedFilters.cidade && !selectedFilters.programa && selectedFilters.tipo) {
+        title = selectedFilters.tipo + ' na cidade de ' + selectedFilters.cidade;
     } else if(selectedFilters.cidade && selectedFilters.programa && selectedFilters.tipo) {
         title = selectedFilters.tipo + ' em ' + selectedFilters.programa + ' na cidade de ' + selectedFilters.cidade;
     } else if(!selectedFilters.cidade && selectedFilters.programa && selectedFilters.tipo) {
         title = selectedFilters.tipo + ' em ' + selectedFilters.programa;
     }
 
-    var $resultsContainer = $('#data');
-    var $resultsHeader = $resultsContainer.find('header');
 
-    $resultsHeader
-        .empty()
-        .append('<h2>' + title + '</h2>');
 
-    var $dataTable = $resultsContainer.find('#data-table');
-    $dataTable.empty();
-
-    // LOADING CONTENT
-
-    var $graphsContainer = $resultsContainer.find('#graphs');
-    $graphsContainer.empty();
-    // clear select options
+    $resultsHeader.append('<h2>' + title + '</h2>');
 
     if(selectedFilters.cidade && !selectedFilters.tipo && !selectedFilters.programa) {
         /*--CIDADE
@@ -394,6 +410,8 @@ function theMagic() {
 
         $dataTable.append(tableContent);
 
+        $links.append('<a class="button" href="#">Acesse o relatório de fiscalização da cidade</a>');
+
     } else if(!selectedFilters.cidade && selectedFilters.tipo && !selectedFilters.programa) {
         /*--TIPO
             gráfico pizza
@@ -403,12 +421,14 @@ function theMagic() {
         */
         $graphsContainer.append('<div id="graph01" class="graph-container"></div><div id="graph02" class="graph-container"></div>');
         drawPieChart('', selectedFilters, 'programa', 'graph01');
+        $('#graph01').before('<h3>Irregularidades por programa</h3>');
         tableData.programa = currentData.programa;
         drawColumnChart('', selectedFilters, 'cidade', 'graph02');
+        $('#graph02').before('<h3>Irregularidades por cidade</h3>');
 
         // data table
         var tableContent = '';
-        tableContent += '<table><tbody><tr><th class="total">Total</th><th>Programas</th><th></th></tr>';
+        tableContent += '<table class="regular"><tbody><tr><th class="total">Total</th><th>Programas</th><th class="n"></th></tr>';
         var totalCount = 0;
         var totalAverage = 0;
         tableContent += '<tr><td rowspan="10" class="total"></td></tr>';
@@ -434,12 +454,14 @@ function theMagic() {
         */
         $graphsContainer.append('<div id="graph01" class="graph-container"></div><div id="graph02" class="graph-container"></div>');
         drawPieChart('', selectedFilters, 'tipo', 'graph01');
+        $('#graph01').before('<h3>Irregularidades por tipo</h3>');
         tableData.tipo = currentData.tipo;
         drawColumnChart('', selectedFilters, 'cidade', 'graph02');
+        $('#graph02').before('<h3>Irregularidades por cidade</h3>');
 
         // data table
         var tableContent = '';
-        tableContent += '<table><tbody><tr><th class="total">Total</th><th>Tipos de irregularidades</th><th></th></tr>';
+        tableContent += '<table class="regular"><tbody><tr><th class="total">Total</th><th>Tipos de irregularidades</th><th class="n"></th></tr>';
         var totalCount = 0;
         var totalAverage = 0;
         tableContent += '<tr><td rowspan="6" class="total"></td></tr>';
@@ -465,9 +487,34 @@ function theMagic() {
         */
         $graphsContainer.append('<div id="graph01" class="graph-container"></div><div id="graph02" class="graph-container"></div>');
         drawPieChart('', selectedFilters, 'programa', 'graph01');
+        $('#graph01').before('<h3>Irregularidades por programa</h3>');
         tableData.programa = currentData.programa;
-        selectedFilters.cidade = '';
         drawPieChart('Total', selectedFilters, 'programa', 'graph02');
+        $('#graph02').before('<h3>Comparativo com o total de irregularidades por programa</h3>');
+
+        // data table
+        var tableContent = '';
+        tableContent += '<table class="regular"><tbody><tr><th class="total">Total</th><th>Programas</th><th class="n"></th></tr>';
+        var totalCount = 0;
+        var totalAverage = 0;
+        tableContent += '<tr><td rowspan="10" class="total"></td></tr>';
+        $.each(eduamazonia.programa, function(i, programa) {
+            var itemData = jLinq.from(tableData.programa).starts('programa', programa.programa).select();
+            $.each(itemData, function(key, value) { itemData = value });
+            var count = itemData.count;
+            if(!count) count = '--';
+            else totalCount = totalCount + count;
+            tableContent += '<tr><td>' + programa.programa_desc + '</td><td class="n">' + count + '</td></tr>';
+        });
+        tableContent += '</tbody></table>';
+
+        $dataTable.append(tableContent);
+        $dataTable.find('td.total').text(totalCount);
+        $dataTable.find('td.total').append('<span>irregularidades</span>');
+
+        $links.append('<a class="button" href="#">Veja a lista de irregularidades</a>');
+        $links.append('<a class="button" href="#">Acesse o relatório de fiscalização da cidade</a>');
+
     } else if(!selectedFilters.cidade && selectedFilters.tipo && selectedFilters.programa) {
         /*--TIPO+PROGRAMA
             gráfico barra
@@ -475,7 +522,30 @@ function theMagic() {
         */
         $graphsContainer.append('<div id="graph01" class="graph-container"></div>');
         drawColumnChart('', selectedFilters, 'cidade', 'graph01');
+        $('#graph01').before('<h3>Irregularidades por cidade</h3>');
         tableData.cidade = currentData.cidade;
+
+        // data table
+        var tableContent = '';
+        tableContent += '<table class="regular"><tbody><tr><th class="total">Total</th><th>As 10 cidades com mais irregularidades</th><th class="n"></th></tr>';
+        var totalCount = 0;
+        var totalAverage = 0;
+        tableContent += '<tr><td rowspan="11" class="total"></td></tr>';
+        console.log(tableData.cidade);
+        $.each(tableData.cidade, function(i, cidade) {
+            if(i == 10) return false;
+            var count = cidade.count;
+            totalCount = totalCount + count;
+            tableContent += '<tr><td>' + cidade.cidade + '</td><td class="n">' + count + '</td></tr>';
+        });
+        tableContent += '</tbody></table>';
+
+        $dataTable.append(tableContent);
+        $dataTable.find('td.total').text(totalCount);
+        $dataTable.find('td.total').append('<span>irregularidades</span>');
+
+        $links.append('<a class="button" href="#">Veja a lista de irregularidades</a>');
+
     } else if(selectedFilters.cidade && !selectedFilters.tipo && selectedFilters.programa) {
         /*--CIDADE+PROGRAMA
             gráfico pizza
@@ -485,13 +555,14 @@ function theMagic() {
         */
         $graphsContainer.append('<div id="graph01"></div><div id="graph02"></div>');
         drawPieChart('Filtro', selectedFilters, 'tipo', 'graph01');
+        $('#graph01').before('<h3>Irregularidades por tipo</h3>');
         tableData.tipo = currentData.tipo;
-        console.log(tableData);
         drawPieChart('Total', selectedFilters, 'tipo', 'graph02');
+        $('#graph02').before('<h3>Comparativo com o total de irregularidades por tipo</h3>');
 
         // data table
         var tableContent = '';
-        tableContent += '<table><tbody><tr><th class="total">Total</th><th>Tipos de irregularidades</th><th></th></tr>';
+        tableContent += '<table class="regular"><tbody><tr><th class="total">Total</th><th>Tipos de irregularidades</th><th class="n"></th></tr>';
         var totalCount = 0;
         var totalAverage = 0;
         tableContent += '<tr><td rowspan="6" class="total"></td></tr>';
@@ -508,6 +579,9 @@ function theMagic() {
         $dataTable.append(tableContent);
         $dataTable.find('td.total').text(totalCount);
         $dataTable.find('td.total').append('<span>irregularidades</span>');
+
+        $links.append('<a class="button" href="#">Veja a lista de irregularidades</a>');
+        $links.append('<a class="button" href="#">Acesse o relatório de fiscalização da cidade</a>');
     } else if(selectedFilters.cidade && selectedFilters.tipo && selectedFilters.programa) {
         /*--CIDADE+TIPO+PROGRAMA
             só lista
@@ -522,9 +596,9 @@ function getCidadeGraphData(filters) {
     var cidade = filters.cidade;
 
     // setup header
-    data[0][0] = 'Programa';
-    jQuery.each(currentData.tipo, function(index, tipoData) {
-        data[0][index+1] = tipoData.tipo;
+    data[0][0] = '';
+    jQuery.each(currentData.tipo, function(i, tipoData) {
+        data[0][i+1] = tipoData.tipo;
     });
 
     // rows
@@ -606,7 +680,6 @@ function drawCidade(cidade, containerId) {
             width:450,
             height:400,
             backgroundColor: 'transparent',
-            hAxis: {title: 'Programa'},
             seriesType: 'bars',
             isStacked: true
         },
@@ -616,13 +689,8 @@ function drawCidade(cidade, containerId) {
     return;
 }
 
-/* CAROUSEL */
 
-$(document).ready(function() {
-    $('#carousel').carousel({
-        slideSpeed: 700,
-    });
-});
+/* CAROUSEL PLUGIN */
 
 (function($) {
 
@@ -700,4 +768,3 @@ $(document).ready(function() {
     };
 
 })(jQuery);
-

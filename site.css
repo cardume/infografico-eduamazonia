@@ -83,6 +83,47 @@ a:hover {
   clear: both;
 }
 
+.button:before {
+  content: '';
+  width: 11px;
+  height: 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: url(img/button-before.jpg);
+}
+
+.button:after {
+  content: '';
+  width: 11px;
+  height: 50px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: url(img/button-after.jpg);
+}
+
+.button {
+  position: relative;
+  background: url(img/button-bg.jpg);
+  height: 40px;
+  line-height: 32px;
+  font-size: 12px;
+  padding: 5px 14px 5px 20px;
+  margin: 0 5px 0 0;
+  display: block;
+  float: left;
+  color: #38452b;
+  text-decoration: none;
+  text-align: center;
+}
+
+.button:hover {
+  color: #000;
+}
+
+
+
 /* --------------------------------------------------------
   Layout
 --------------------------------------------------------- */
@@ -316,9 +357,23 @@ section#navegue {
   display: none;
 }
 
+section#navegue header .landing {
+  padding: 0 40px 0 60px;
+  height: 500px;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+section#navegue h3 {
+  color: #999;
+  line-height: 24px;
+}
+
 section#navegue #filters {
   width: 390px;
   float: left;
+  margin: 0;
+  padding: 0;
 }
 
 section#navegue #filters > li {
@@ -482,6 +537,25 @@ section#navegue #data-table table tr.total td.m {
   color: #c33132 !important;
 }
 
+section#navegue #data-table table.regular th.total {
+  width: 35%;
+}
+
+section#navegue #data-table table.regular tr th.n {
+  width: 15%;
+  position: relative;
+}
+
+section#navegue #data-table table.regular tr th.n:before {
+  content: '';
+  position: absolute;
+  width: 42px;
+  height: 51px;
+  right: 20px;
+  top: -22px;
+  background: url(img/table_number_arrow.png);
+}
+
 section#navegue #data h3 {
   margin: 20px 0 5px 0;
 }
@@ -503,6 +577,10 @@ section#navegue #data-table table td.total span {
   display:block;
   text-align: center;
   letter-spacing: 1px;
+}
+
+section#navegue #links {
+  float: right;
 }
 
 footer {
@@ -548,7 +626,7 @@ a.zoomer {
     }
 
 .wax-fade {
-  opacity:0;
+  display: none;
 }
 
 .wax-tooltip .close {
