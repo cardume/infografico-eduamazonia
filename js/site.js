@@ -538,7 +538,6 @@ function theMagic() {
         var totalCount = getIrregularidadesCount(selectedFilters);
         tableContent += '<tr><td rowspan="11" class="total"></td></tr>';
         $.each(tableData.cidade, function(i, cidade) {
-            //totalCount = totalCount + cidade.count;
             if(i < 10) tableContent += '<tr><td>' + cidade.cidade + '</td><td class="n">' + cidade.count + '</td></tr>';
         });
         tableContent += '</tbody></table>';
