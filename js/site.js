@@ -440,7 +440,6 @@ function theMagic() {
         var tableContent = '';
         tableContent += '<table class="regular"><tbody><tr><th class="total">Total</th><th>Programas</th><th class="n"></th></tr>';
         var totalCount = 0;
-        var totalAverage = 0;
         tableContent += '<tr><td rowspan="10" class="total"></td></tr>';
         $.each(eduamazonia.programa, function(i, programa) {
             var itemData = jLinq.from(tableData.programa).starts('programa', programa.programa).select();
@@ -473,7 +472,6 @@ function theMagic() {
         var tableContent = '';
         tableContent += '<table class="regular"><tbody><tr><th class="total">Total</th><th>Tipos de irregularidades</th><th class="n"></th></tr>';
         var totalCount = 0;
-        var totalAverage = 0;
         tableContent += '<tr><td rowspan="6" class="total"></td></tr>';
         $.each(eduamazonia.tipo, function(i, tipo) {
             var itemData = jLinq.from(tableData.tipo).starts('tipo', tipo.tipo).select();
@@ -506,7 +504,6 @@ function theMagic() {
         var tableContent = '';
         tableContent += '<table class="regular"><tbody><tr><th class="total">Total</th><th>Programas</th><th class="n"></th></tr>';
         var totalCount = 0;
-        var totalAverage = 0;
         tableContent += '<tr><td rowspan="10" class="total"></td></tr>';
         $.each(eduamazonia.programa, function(i, programa) {
             var itemData = jLinq.from(tableData.programa).starts('programa', programa.programa).select();
@@ -538,15 +535,11 @@ function theMagic() {
         // data table
         var tableContent = '';
         tableContent += '<table class="regular"><tbody><tr><th class="total">Total</th><th>As 10 cidades com mais irregularidades</th><th class="n"></th></tr>';
-        var totalCount = 0;
-        var totalAverage = 0;
+        var totalCount = getIrregularidadesCount(selectedFilters);
         tableContent += '<tr><td rowspan="11" class="total"></td></tr>';
-        console.log(tableData.cidade);
         $.each(tableData.cidade, function(i, cidade) {
-            if(i == 10) return false;
-            var count = cidade.count;
-            totalCount = totalCount + count;
-            tableContent += '<tr><td>' + cidade.cidade + '</td><td class="n">' + count + '</td></tr>';
+            //totalCount = totalCount + cidade.count;
+            if(i < 10) tableContent += '<tr><td>' + cidade.cidade + '</td><td class="n">' + cidade.count + '</td></tr>';
         });
         tableContent += '</tbody></table>';
 
@@ -574,7 +567,6 @@ function theMagic() {
         var tableContent = '';
         tableContent += '<table class="regular"><tbody><tr><th class="total">Total</th><th>Tipos de irregularidades</th><th class="n"></th></tr>';
         var totalCount = 0;
-        var totalAverage = 0;
         tableContent += '<tr><td rowspan="6" class="total"></td></tr>';
         $.each(eduamazonia.tipo, function(i, tipo) {
             var itemData = jLinq.from(tableData.tipo).starts('tipo', tipo.tipo).select();
