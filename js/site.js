@@ -129,6 +129,11 @@ function loadSection(section) {
 
     if(section == 'navegue' && sectionLoaded[section] == false) {    // prepare data and filters
 
+        var scrollSettings = {};
+        var scrollPane = $('#navegue #data');
+        scrollPane.jScrollPane(scrollSettings);
+        resultsScrollApi = scrollPane.data('jsp');
+
         $.getJSON('constatacoes.json.php?data=geral', function(data) {
             irregularidadesData = data;
         });
@@ -197,11 +202,6 @@ function loadSection(section) {
                     navigateFilter(-2, -57, 4);
                 }
             }
-
-            var scrollSettings = {};
-            var scrollPane = $('#navegue #data');
-            scrollPane.jScrollPane(scrollSettings);
-            resultsScrollApi = scrollPane.data('jsp');
 
             // update with new output data and select options
             if(!$.isEmptyObject(selectedFilters)) {
@@ -647,7 +647,10 @@ function theMagic() {
     }
 
     if(selectedFilters.cidade) {
-        $links.append('<a class="button" href="#">Acesse o relatório de fiscalização da cidade</a>');
+        var filterData = jLinq.from(eduamazonia.cidade).starts('cidade', selectedFilters.cidade).select();
+        filterData = filterData[0];
+        $links.append('<a class="relatorio button" href="#" target="_blank">Acesse o relatório de fiscalização da cidade</a>');
+        $('.relatorio.button').attr('href', 'relatorios/' + filterData.relatorio);
     }
 
     $('.irregularidades-toggle').click(function() {
