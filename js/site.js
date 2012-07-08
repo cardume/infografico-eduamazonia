@@ -196,9 +196,7 @@ function loadSection(section) {
                 }
             }
 
-            var scrollSettings = {
-                maintainPosition: false
-            };
+            var scrollSettings = {};
             var scrollPane = $('#navegue #data');
             scrollPane.jScrollPane(scrollSettings);
             resultsScrollApi = scrollPane.data('jsp');
@@ -237,6 +235,7 @@ function loadSection(section) {
             $.each(categories, function(i, category) {
                 currentData[category] = getCategoryCurrentData(selectedFilters, category);
             });
+            currentData.irregularidades = getIrregularidades(selectedFilters);
         }
 
         function getCategoryCurrentData(filters, category) {
@@ -340,12 +339,28 @@ function loadSection(section) {
     }
 }
 
+// add category filter
+function addFilter(category, value) {
+    $('select.' + category + ' option').attr('selected', false);
+    $('select.' + category + ' option[value="' + value + '"]').attr('selected', true);
+    $('select.' + category).chosen().trigger('liszt:updated').change();
+    return false;
+}
+
 function getIrregularidadesCount(filters) {
     var data = jLinq.from(irregularidadesData);
     jQuery.each(filters, function(key, value) {
         data = data.starts(key, value);
     });
     return data.count();
+}
+
+function getIrregularidades(filters) {
+    var data = jLinq.from(irregularidadesData);
+    jQuery.each(filters, function(key, value) {
+        data = data.starts(key, value);
+    });
+    return data.select();
 }
 
 function theMagic() {
@@ -355,11 +370,13 @@ function theMagic() {
     var $dataTable = $resultsContainer.find('#data-table');
     var $links = $resultsContainer.find('#links');
     var $graphsContainer = $resultsContainer.find('#graphs');
+    var $irregularidadesContainer = $resultsContainer.find('#irregularidades');
 
     $resultsHeader.empty();
     $dataTable.empty();
     $links.empty();
     $graphsContainer.empty();
+    $irregularidadesContainer.removeClass('active').empty();
 
     if($.isEmptyObject(selectedFilters)) {
         $resultsContainer.find('.landing').show();
@@ -385,8 +402,6 @@ function theMagic() {
         title = selectedFilters.tipo + ' em ' + selectedFilters.programa;
     }
 
-
-
     $resultsHeader.append('<h2>' + title + '</h2>');
 
     if(selectedFilters.cidade && !selectedFilters.tipo && !selectedFilters.programa) {
@@ -409,19 +424,22 @@ function theMagic() {
             var itemData = jLinq.from(tableData.programa).starts('programa', programa.programa).select();
             $.each(itemData, function(key, value) { itemData = value });
             var count = itemData.count;
-            if(!count) count = '--';
-            else totalCount = totalCount + count;
+            var attrs;
+            if(!count) {
+                count = '--';
+                attrs = false;
+            } else {
+                totalCount = totalCount + count;
+                attrs = 'class="filterable" onClick="addFilter(\'programa\', \'' + programa.programa + '\');"';
+            }
             var average = Math.ceil(programa.constatacoes/32);
             totalAverage = Math.ceil(totalAverage + (programa.constatacoes/32));
-            tableContent += '<tr><td class="n">' + count + '</td><td>' + programa.programa_desc + '</td><td class="m">' + average + '</td></tr>';
+            tableContent += '<tr><td class="n">' + count + '</td><td ' + attrs + '>' + programa.programa_desc + '</td><td class="m">' + average + '</td></tr>';
         });
         tableContent += '<tr class="total"><td class="n">' + totalCount + '</td><td>TOTAL</td><td class="m">' + totalAverage + '</td></tr>';
         tableContent += '</tbody></table>';
 
         $dataTable.append(tableContent);
-
-        $links.append('<a class="button" href="#">Acesse o relatório de fiscalização da cidade</a>');
-
     } else if(!selectedFilters.cidade && selectedFilters.tipo && !selectedFilters.programa) {
         /*--TIPO
             gráfico pizza
@@ -445,9 +463,15 @@ function theMagic() {
             var itemData = jLinq.from(tableData.programa).starts('programa', programa.programa).select();
             $.each(itemData, function(key, value) { itemData = value });
             var count = itemData.count;
-            if(!count) count = '--';
-            else totalCount = totalCount + count;
-            tableContent += '<tr><td>' + programa.programa_desc + '</td><td class="n">' + count + '</td></tr>';
+            var attrs;
+            if(!count) {
+                count = '--';
+                attrs = false;
+            } else {
+                totalCount = totalCount + count;
+                attrs = 'class="filterable" onClick="addFilter(\'programa\', \'' + programa.programa + '\');"';
+            }
+            tableContent += '<tr><td ' + attrs + '>' + programa.programa_desc + '</td><td class="n">' + count + '</td></tr>';
         });
         tableContent += '</tbody></table>';
 
@@ -477,9 +501,15 @@ function theMagic() {
             var itemData = jLinq.from(tableData.tipo).starts('tipo', tipo.tipo).select();
             $.each(itemData, function(key, value) { itemData = value });
             var count = itemData.count;
-            if(!count) count = '--';
-            else totalCount = totalCount + count;
-            tableContent += '<tr><td>' + tipo.tipo + '</td><td class="n">' + count + '</td></tr>';
+            var attrs;
+            if(!count) {
+                count = '--';
+                attrs = false;
+            } else {
+                totalCount = totalCount + count;
+                attrs = 'class="filterable" onClick="addFilter(\'tipo\', \'' + tipo.tipo + '\');"';
+            }
+            tableContent += '<tr><td ' + attrs + '>' + tipo.tipo + '</td><td class="n">' + count + '</td></tr>';
         });
         tableContent += '</tbody></table>';
 
@@ -509,19 +539,21 @@ function theMagic() {
             var itemData = jLinq.from(tableData.programa).starts('programa', programa.programa).select();
             $.each(itemData, function(key, value) { itemData = value });
             var count = itemData.count;
-            if(!count) count = '--';
-            else totalCount = totalCount + count;
-            tableContent += '<tr><td>' + programa.programa_desc + '</td><td class="n">' + count + '</td></tr>';
+            var attrs;
+            if(!count) {
+                count = '--';
+                attrs = false;
+            } else {
+                totalCount = totalCount + count;
+                attrs = 'class="filterable" onClick="addFilter(\'programa\', \'' + programa.programa + '\');"';
+            }
+            tableContent += '<tr><td ' + attrs + '>' + programa.programa_desc + '</td><td class="n">' + count + '</td></tr>';
         });
         tableContent += '</tbody></table>';
 
         $dataTable.append(tableContent);
         $dataTable.find('td.total').text(totalCount);
         $dataTable.find('td.total').append('<span>irregularidades</span>');
-
-        $links.append('<a class="button" href="#">Veja a lista de irregularidades</a>');
-        $links.append('<a class="button" href="#">Acesse o relatório de fiscalização da cidade</a>');
-
     } else if(!selectedFilters.cidade && selectedFilters.tipo && selectedFilters.programa) {
         /*--TIPO+PROGRAMA
             gráfico barra
@@ -538,16 +570,13 @@ function theMagic() {
         var totalCount = getIrregularidadesCount(selectedFilters);
         tableContent += '<tr><td rowspan="11" class="total"></td></tr>';
         $.each(tableData.cidade, function(i, cidade) {
-            if(i < 10) tableContent += '<tr><td>' + cidade.cidade + '</td><td class="n">' + cidade.count + '</td></tr>';
+            var attrs = 'class="filterable" onClick="addFilter(\'cidade\', \'' + cidade.cidade + '\');"';
+            if(i < 10) tableContent += '<tr><td ' + attrs + '>' + cidade.cidade + '</td><td class="n">' + cidade.count + '</td></tr>';
         });
         tableContent += '</tbody></table>';
-
         $dataTable.append(tableContent);
         $dataTable.find('td.total').text(totalCount);
         $dataTable.find('td.total').append('<span>irregularidades</span>');
-
-        $links.append('<a class="button" href="#">Veja a lista de irregularidades</a>');
-
     } else if(selectedFilters.cidade && !selectedFilters.tipo && selectedFilters.programa) {
         /*--CIDADE+PROGRAMA
             gráfico pizza
@@ -571,25 +600,70 @@ function theMagic() {
             var itemData = jLinq.from(tableData.tipo).starts('tipo', tipo.tipo).select();
             $.each(itemData, function(key, value) { itemData = value });
             var count = itemData.count;
-            if(!count) count = '--';
-            else totalCount = totalCount + count;
-            tableContent += '<tr><td>' + tipo.tipo + '</td><td class="n">' + count + '</td></tr>';
+            var attrs;
+            if(!count) {
+                count = '--';
+                attrs = false;
+            } else {
+                totalCount = totalCount + count;
+                attrs = 'class="filterable" onClick="addFilter(\'tipo\', \'' + tipo.tipo + '\');"';
+            }
+            tableContent += '<tr><td ' + attrs + '>' + tipo.tipo + '</td><td class="n">' + count + '</td></tr>';
         });
         tableContent += '</tbody></table>';
 
         $dataTable.append(tableContent);
         $dataTable.find('td.total').text(totalCount);
         $dataTable.find('td.total').append('<span>irregularidades</span>');
-
-        $links.append('<a class="button" href="#">Veja a lista de irregularidades</a>');
-        $links.append('<a class="button" href="#">Acesse o relatório de fiscalização da cidade</a>');
     } else if(selectedFilters.cidade && selectedFilters.tipo && selectedFilters.programa) {
         /*--CIDADE+TIPO+PROGRAMA
             só lista
         */
     }
 
+    // irregularidades table
+    if(Object.keys(selectedFilters).length >= 2) {
+        var category = categories[0];
+        if(category)
+            var categoryTitle = category.charAt(0).toUpperCase() + category.slice(1) + 's';
+        if(Object.keys(selectedFilters).length == 2) 
+            $links.append('<a class="irregularidades-toggle button" href="#">Exibir a lista de irregularidades</a>');
+        else
+            $irregularidadesContainer.addClass('active');
+
+        var irregularidadesContent = '';
+        irregularidadesContent += '<table class="irregularidades"><tbody><tr>';
+        if(category) irregularidadesContent += '<th class="' + category + ' category">' + categoryTitle + '</th>';
+        irregularidadesContent += '<th>Irregularidades</th></tr>';
+        $.each(currentData.irregularidades, function(i, irregularidade) {
+            irregularidadesContent += '<tr>';
+            if(category) irregularidadesContent += '<td class="' + normalize(irregularidade[category]) + '">' + irregularidade[category] + '</td>';
+            irregularidadesContent += '<td><p>' + irregularidade.constatacao + '</p></td>';
+        })
+        irregularidadesContent += '</tbody></table>';
+        $irregularidadesContainer.append(irregularidadesContent);
+    }
+
+    if(selectedFilters.cidade) {
+        $links.append('<a class="button" href="#">Acesse o relatório de fiscalização da cidade</a>');
+    }
+
+    $('.irregularidades-toggle').click(function() {
+        if(!$irregularidadesContainer.hasClass('active')) {
+            $irregularidadesContainer.addClass('active');
+            $(this).text('Esconder a lista de irregularidades');
+            resultsScrollApi.reinitialise();
+            $()
+        } else {
+            $irregularidadesContainer.removeClass('active');
+            $(this).text('Exibir a lista de irregularidades');
+            resultsScrollApi.reinitialise();
+        }
+        return false;
+    });
+
     resultsScrollApi.reinitialise();
+    $('.jspPane, .jspDrag').css({'top':0});
 }
 
 function getCidadeGraphData(filters) {
@@ -771,3 +845,27 @@ function drawCidade(cidade, containerId) {
     };
 
 })(jQuery);
+
+
+// class friendly text helper
+var normalize = (function() {
+    var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç", 
+        to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
+        mapping = {};
+ 
+    for(var i=0; i<from.length; i++)
+        mapping[from.charAt(i)] = to.charAt(i);
+ 
+    return function(str) {
+        var ret = []
+        for(var i=0; i<str.length; i++) {
+            var c = str.charAt(i)
+            if(mapping.hasOwnProperty(str.charAt(i)))
+                ret.push(mapping[c]);
+            else
+                ret.push(c);
+        }
+        return ret.join('').replace(/[^-A-Za-z0-9]+/g, '-').toLowerCase();
+    }
+ 
+})();

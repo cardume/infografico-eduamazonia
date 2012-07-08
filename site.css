@@ -492,6 +492,16 @@ section#navegue #data-table table {
   margin: 0 0 20px;
 }
 
+section#navegue #data-table table tr td.filterable {
+  color: #000;
+}
+
+section#navegue #data-table table tr td.filterable:hover {
+  background-color: #E5C1B3;
+  color: #C33132;
+  cursor: pointer;
+}
+
 section#navegue #data-table table tr:nth-child(odd) {
   background-color: #f1eee5;
 }
@@ -586,6 +596,40 @@ section#navegue #data-table table td.total span {
 
 section#navegue #links {
   float: right;
+}
+
+section#navegue #irregularidades {
+  display: none;
+}
+
+section#navegue #irregularidades.active {
+  display: block;
+}
+
+section#navegue #irregularidades table {
+  font-size: 14px;
+  margin: 20px 0;
+  width: 100%;
+}
+
+section#navegue #irregularidades tr th {
+  padding: 10px 0;
+  text-align: center;
+  font-weight: bold;
+  background: #daeae0;
+}
+
+section#navegue #irregularidades tr th.category {
+  width: 33%;
+}
+
+section#navegue #irregularidades tr:nth-child(odd) {
+  background: #eeece0;
+}
+
+section#navegue #irregularidades tr td {
+   padding: 10px;
+   vertical-align: middle;
 }
 
 footer {
