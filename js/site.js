@@ -621,6 +621,7 @@ function theMagic() {
         /*--CIDADE+TIPO+PROGRAMA
             só lista
         */
+        $dataTable.append('<p class="total">Total: ' + getIrregularidadesCount(selectedFilters) + ' irregularidades</p>');
     }
 
     // irregularidades table

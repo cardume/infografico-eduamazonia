@@ -616,6 +616,13 @@ section#navegue #data-table table td.total span {
   letter-spacing: 1px;
 }
 
+section#navegue #data-table p.total {
+  float: left;
+  color: #c33132;
+  font-size: 22px;
+  line-height: 50px;
+}
+
 section#navegue #links {
   float: right;
 }
