@@ -377,6 +377,7 @@ section#visao-geral nav ul li:hover a {
 #carousel .programas #programas-more {
   display: none;
   height: 494px;
+  overflow: auto;
 }
 
 #carousel .programas #programas-more.active {

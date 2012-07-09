@@ -40,7 +40,9 @@ $(document).ready(function() {
             $('#carousel .programas .graph').show();
             $(this).text('Saiba mais sobre os programas do Ministério da Educação');
         } else {
-            $('#programas-more').addClass('active').jScrollPane();
+            $('#programas-more').addClass('active');
+            if(!$.browser.safari)
+                $('#programas-more').jScrollPane();
             $('#carousel .programas .graph').hide();
             $(this).text('Ocultar informações sobre os programas do Ministério da Educação');
         }
