@@ -305,12 +305,21 @@ section#visao-geral nav ul li:hover a {
   position: relative;
 }
 
+#carousel .mapa p.desc {
+  font-size: 18px;
+  line-height: 26px;
+}
+
+#carousel .mapa .map-container {
+  position: relative;
+}
+
 #carousel .mapa .cidade-teaser {
   z-index:999999;
   position:absolute;
   -webkit-user-select:auto;
   right:20px;
-  top:60px;
+  top:40px;
   max-width:300px;
   background: #efebea;
   width: 270px;
@@ -357,7 +366,7 @@ section#visao-geral nav ul li:hover a {
 .wax-tooltip .close {
   display:block;
   position:absolute;
-  top:20px;
+  top:0px;
   right:20px;
 }
 
