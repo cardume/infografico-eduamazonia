@@ -3,6 +3,11 @@
 /* CAROUSEL */
 
 $(document).ready(function() {
+
+    // overflow hidden if iframe loaded
+    if(window.location != window.parent.location)
+        $('html,body').css({'overflow':'hidden'})
+
     $('#carousel').carousel({
         slideSpeed: 700,
     });
