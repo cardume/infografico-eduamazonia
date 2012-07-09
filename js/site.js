@@ -349,11 +349,12 @@ function updateCurrentData() {
 }
 
 function getData(filters, categories) {
-    customData = {};
+    var customData = {};
     $.each(categories, function(i, category) {
-        currentData[category] = getCategoryData(filters, category);
+        customData[category] = getCategoryData(filters, category);
     });
     customData.irregularidades = getIrregularidades(filters);
+    return customData;
 }
 
 function getCategoryData(filters, category) {
@@ -456,9 +457,9 @@ function theMagic() {
         $graphsContainer.append('<div id="graph01" class="graph-container"></div>');
         drawCidade(selectedFilters, 'graph01');
         $('#graph01').before('<h3>Irregularidades por programa na cidade</h3>');
-        tableData.programa = currentData.programa;
 
         // data table
+        tableData.programa = currentData.programa;
         var tableContent = '';
         tableContent += '<table><tbody><tr><th class="n">Número de irregularidades</th><th>Programas do governo</th><th class="m">Média das cidades fiscalizadas</th></tr>';
         var totalCount = 0;
@@ -493,11 +494,11 @@ function theMagic() {
         $graphsContainer.append('<div id="graph01" class="graph-container"></div><div id="graph02" class="graph-container"></div>');
         drawPieChart('programa', 'graph01');
         $('#graph01').before('<h3>Irregularidades por programa</h3>');
-        tableData.programa = currentData.programa;
         drawColumnChart('cidade', 'graph02');
         $('#graph02').before('<h3>Irregularidades por cidade</h3>');
 
         // data table
+        tableData.programa = currentData.programa;
         var tableContent = '';
         tableContent += '<table class="regular"><tbody><tr><th class="total">Total</th><th>Programas</th><th class="n"></th></tr>';
         var totalCount = 0;
@@ -531,11 +532,11 @@ function theMagic() {
         $graphsContainer.append('<div id="graph01" class="graph-container"></div><div id="graph02" class="graph-container"></div>');
         drawPieChart('tipo', 'graph01');
         $('#graph01').before('<h3>Irregularidades por tipo</h3>');
-        tableData.tipo = currentData.tipo;
         drawColumnChart('cidade', 'graph02');
         $('#graph02').before('<h3>Irregularidades por cidade</h3>');
 
         // data table
+        tableData.tipo = currentData.tipo;
         var tableContent = '';
         tableContent += '<table class="regular"><tbody><tr><th class="total">Total</th><th>Tipos de irregularidades</th><th class="n"></th></tr>';
         var totalCount = 0;
@@ -569,12 +570,9 @@ function theMagic() {
         $graphsContainer.append('<div id="graph01" class="graph-container"></div><div id="graph02" class="graph-container"></div>');
         drawPieChart('programa', 'graph01');
         $('#graph01').before('<h3>Irregularidades por programa</h3>');
-        tableData.programa = currentData.programa;
-        var comparativoData = getData({'tipo' : selectedFilters.tipo}, ['programa']);
-        drawPieChart('programa', 'graph02', comparativoData);
-        $('#graph02').before('<h3>Comparativo com o total em todas as cidades</h3>');
 
         // data table
+        tableData.programa = currentData.programa;
         var tableContent = '';
         tableContent += '<table class="regular"><tbody><tr><th class="total">Total</th><th>Programas</th><th class="n"></th></tr>';
         var totalCount = 0;
@@ -598,6 +596,11 @@ function theMagic() {
         $dataTable.append(tableContent);
         $dataTable.find('td.total').text(totalCount);
         $dataTable.find('td.total').append('<span>irregularidades</span>');
+
+        var comparativoData = getData({'tipo' : selectedFilters.tipo}, ['programa']);
+        drawPieChart('programa', 'graph02', comparativoData);
+        $('#graph02').before('<h3>Comparativo com o total em todas as cidades</h3>');
+        
     } else if(!selectedFilters.cidade && selectedFilters.tipo && selectedFilters.programa) {
         /*--TIPO+PROGRAMA
             gráfico barra
@@ -606,9 +609,9 @@ function theMagic() {
         $graphsContainer.append('<div id="graph01" class="graph-container"></div>');
         drawColumnChart('cidade', 'graph01');
         $('#graph01').before('<h3>Irregularidades por cidade</h3>');
-        tableData.cidade = currentData.cidade;
 
         // data table
+        tableData.cidade = currentData.cidade;
         var tableContent = '';
         tableContent += '<table class="regular"><tbody><tr><th class="total">Total</th><th>As 10 cidades com mais irregularidades</th><th class="n"></th></tr>';
         var totalCount = getIrregularidadesCount(selectedFilters);
@@ -631,12 +634,9 @@ function theMagic() {
         $graphsContainer.append('<div id="graph01"></div><div id="graph02"></div>');
         drawPieChart('tipo', 'graph01');
         $('#graph01').before('<h3>Irregularidades por tipo</h3>');
-        tableData.tipo = currentData.tipo;
-        var comparativoData = getData({'programa' : selectedFilters.programa}, ['tipo']);
-        drawPieChart('tipo', 'graph02', comparativoData);
-        $('#graph02').before('<h3>Comparativo com o total em todas as cidades</h3>');
 
         // data table
+        tableData.tipo = currentData.tipo;
         var tableContent = '';
         tableContent += '<table class="regular"><tbody><tr><th class="total">Total</th><th>Tipos de irregularidades</th><th class="n"></th></tr>';
         var totalCount = 0;
@@ -660,6 +660,11 @@ function theMagic() {
         $dataTable.append(tableContent);
         $dataTable.find('td.total').text(totalCount);
         $dataTable.find('td.total').append('<span>irregularidades</span>');
+
+        var comparativoData = getData({'programa' : selectedFilters.programa}, ['tipo']);
+        drawPieChart('tipo', 'graph02', comparativoData);
+        $('#graph02').before('<h3>Comparativo com o total em todas as cidades</h3>');
+
     } else if(selectedFilters.cidade && selectedFilters.tipo && selectedFilters.programa) {
         /*--CIDADE+TIPO+PROGRAMA
             só lista
