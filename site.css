@@ -354,6 +354,26 @@ section#visao-geral nav ul li:hover a {
   color: #e8851f;
 }
 
+#carousel .programas p.fixed {
+  margin-top: 20px;
+}
+
+#carousel .programas #programas-more {
+  display: none;
+  position: absolute;
+  height: 494px;
+  top: 0;
+  left: 0;
+}
+
+#carousel .programas #programas-more.active {
+  display: block;
+}
+
+#carousel .programas #programas-more .content {
+  padding: 0 60px;
+}
+
 #carousel article {
   padding: 10px 60px;
 }
