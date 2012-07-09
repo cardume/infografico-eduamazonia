@@ -354,6 +354,13 @@ section#visao-geral nav ul li:hover a {
   color: #e8851f;
 }
 
+.wax-tooltip .close {
+  display:block;
+  position:absolute;
+  top:20px;
+  right:20px;
+}
+
 #carousel .programas p.fixed {
   margin-top: 20px;
 }
@@ -834,11 +841,4 @@ a.zoomer {
 
 .wax-fade {
   display: none;
-}
-
-.wax-tooltip .close {
-  display:block;
-  position:absolute;
-  top:0px;
-  right:0px;
 }

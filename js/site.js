@@ -11,8 +11,9 @@ $(document).ready(function() {
     $('#carousel').carousel({
         slideSpeed: 700,
     });
-    $('#carousel .reportagem').jScrollPane({autoReinitialise: true});
 
+    $('#map img').live('click', function() { return false; });
+    
     $('.programas-toggle').click(function() {
         if($('#programas-more').hasClass('active')) {
             $('#programas-more').removeClass('active');
@@ -25,6 +26,9 @@ $(document).ready(function() {
         }
         return false;
     });
+
+    $('#carousel .reportagem').jScrollPane({autoReinitialise: true});
+
 });
 
 
@@ -80,13 +84,17 @@ $(document).ready(function() {
     wax.mm.interaction()
         .map(m)
         .tilejson(tilejson)
-        .on(wax.tooltip().animate(true).parent(m.parent).events())
+        .on(wax.tooltip().animate(false).parent(m.parent).events())
         .on({
             on: function(e) {
                 $('.default-tip').hide();
+                $('.wax-tooltip .close').text('Fechar');
             },
             off: function(e) {
-                $('.default-tip').show();
+                if(!$('.dynamic-tip').length)
+                    $('.default-tip').show();
+                else
+                    $('.wax-tooltip .close').text('Fechar');
             }
         });
 
