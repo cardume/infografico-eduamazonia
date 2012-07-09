@@ -239,7 +239,7 @@ section#visao-geral nav ul li {
 section#visao-geral nav ul li a {
   font-family: 'Ubuntu Condensed';
   font-size: 20px;
-  color: #d2cac8;
+  color: #B8ACA9;
   text-decoration: none;
 }
 
@@ -376,10 +376,7 @@ section#visao-geral nav ul li:hover a {
 
 #carousel .programas #programas-more {
   display: none;
-  position: absolute;
   height: 494px;
-  top: 0;
-  left: 0;
 }
 
 #carousel .programas #programas-more.active {

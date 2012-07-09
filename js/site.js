@@ -17,11 +17,11 @@ $(document).ready(function() {
     $('.programas-toggle').click(function() {
         if($('#programas-more').hasClass('active')) {
             $('#programas-more').removeClass('active');
-            $('#carousel .programas .graph').css({'visibility':'visible'});
+            $('#carousel .programas .graph').show();
             $(this).text('Saiba mais sobre os programas');
         } else {
             $('#programas-more').addClass('active').jScrollPane();
-            $('#carousel .programas .graph').css({'visibility':'hidden'});
+            $('#carousel .programas .graph').hide();
             $(this).text('Ocultar informações sobre os programas');
         }
         return false;
@@ -698,7 +698,7 @@ function theMagic() {
     if(selectedFilters.cidade) {
         var filterData = jLinq.from(eduamazonia.cidade).starts('cidade', selectedFilters.cidade).select();
         filterData = filterData[0];
-        $links.append('<a class="relatorio button" href="#" target="_blank">Acesse o relatório de fiscalização da cidade</a>');
+        $links.append('<a class="relatorio button" href="#" target="_blank">Veja a integra do relatório da CGU</a>');
         $('.relatorio.button').attr('href', 'relatorios/' + filterData.relatorio);
     }
 
