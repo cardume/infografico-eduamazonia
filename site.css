@@ -1,0 +1,856 @@
+/* ------------------------------------------
+  Reset ♥
+  http://meyerweb.com/eric/tools/css/reset/
+  v2.0 | 20110126
+  License: none (public domain)
+---------------------------------------------*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  }
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+  }
+html, body, #map {width: 100%; height: 100%;}
+body { line-height: 1; }
+ol, ul { list-style: none;  }
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after,
+q:before, q:after { content: ''; content: none; }
+/* tables still need 'cellspacing='0'' in the markup */
+table { border-collapse: collapse; border-spacing: 0; }
+:focus { outline: 0; }
+
+/* --------------------------------------------------------
+  Global styles
+--------------------------------------------------------- */
+
+body {
+  font-size: 20px;
+  font-family: 'Ubuntu Condensed';
+  color: #333;
+  background: url(img/bg.jpg);
+}
+
+h1 {
+  font-size: 25px;
+  padding: 10px 0;
+  font-weight: bold;
+}
+
+p {
+  padding: 0 0 10px 0;
+  }
+
+p.alignright {
+  text-align: right;
+}
+
+.small {
+  font-size: 16px;
+}
+
+a {
+  color: #000;
+  text-decoration: underline;
+  }
+
+a:hover {
+  text-decoration: none;
+}
+
+.clearfix {
+  width: 100%;
+  height: 1px;
+  clear: both;
+}
+
+.button:before {
+  content: '';
+  width: 11px;
+  height: 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: url(img/button-before.jpg);
+}
+
+.button:after {
+  content: '';
+  width: 11px;
+  height: 50px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: url(img/button-after.jpg);
+}
+
+.button {
+  position: relative;
+  background: url(img/button-bg.jpg);
+  height: 40px;
+  line-height: 32px;
+  font-size: 12px;
+  padding: 5px 14px 5px 20px;
+  margin: 0 5px 0 0;
+  display: block;
+  float: left;
+  color: #38452b;
+  text-decoration: none;
+  text-align: center;
+}
+
+.button:hover {
+  color: #000;
+}
+
+
+
+/* --------------------------------------------------------
+  Layout
+--------------------------------------------------------- */
+
+.wrapper {
+  width: 960px;
+  margin: 0 auto;
+  position: relative;
+}
+
+
+header {
+}
+
+header img {
+  margin: 0 auto;
+  display: block;
+}
+
+header h1 {
+  position: relative;
+  padding-top: 22px;
+  font-family: "Love Ya Like A Sister";
+  color: #fff;
+  background: url(img/h1_bg.jpg) 0 22px repeat-x;
+  line-height: 95px;
+  text-align: center;
+  display: block;
+  font-size: 75px;
+}
+
+header h1:before {
+  content: '';
+  width: 100%;
+  height: 22px;
+  background: url(img/h1_top.jpg);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+header nav {
+  width: 100%;
+  height: 49px;
+  background: url(img/menu_bg.jpg);
+}
+
+header nav ul {
+  width: 850px;
+  display: table;
+  margin: 0 auto;
+}
+
+header nav ul li {
+  width: 1%;
+  display: table-cell;
+  text-align: center;
+}
+
+header nav ul li a {
+  font-size: 24px;
+  line-height: 49px;
+  text-decoration: none;
+  color: #323431;
+}
+
+header nav ul li a:hover {
+  color: #000;
+}
+
+section#main {
+  margin: 20px 24px 0 20px;
+  padding: 25px 25px;
+  background: url(img/content_bg.jpg);
+  position: relative;
+  height: 611px;
+}
+
+section#main:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: url(img/content_top.jpg);
+}
+
+section#main:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: url(img/content_bottom.jpg);
+}
+
+section#visao-geral nav ul {
+  display: table;
+  width: 790px;
+  margin: 0 auto;
+  height: 40px;
+  display: block;
+}
+
+section#visao-geral nav ul li {
+  display: table-cell;
+  width: 1%;
+  text-align: center;
+}
+
+section#visao-geral nav ul li a {
+  font-family: 'Ubuntu Condensed';
+  font-size: 20px;
+  color: #B8ACA9;
+  text-decoration: none;
+}
+
+section#visao-geral nav ul li.active a,
+section#visao-geral nav ul li:hover a {
+  color: #000;
+}
+
+#carousel .prev {
+  width: 49px;
+  height: 88px;
+  background: url(img/carousel_arrow_left.jpg) 0 0 no-repeat;
+  top: -9px;
+  left: 6px;
+  text-indent: -9999px;
+  display: block;
+  position: absolute;
+  z-index: 2;
+}
+
+#carousel .next {
+  width: 49px;
+  height: 88px;
+  background: url(img/carousel_arrow_right2.jpg);
+  top: -10px;
+  right: -10px;
+  text-indent: -9999px;
+  display: block;
+  position: absolute;
+  z-index: 2;
+}
+
+#carousel .prev:hover,
+#carousel .next:hover {
+  background-position: 0 -88px;
+}
+
+#carousel .prev:active,
+#carousel .next:active {
+  background-position: 0 -176px;
+}
+
+#carousel #map {
+  width: 100%;
+  height: 549px;
+}
+
+#carousel .carousel-wrapper {
+  width: 866px;
+  height: 549px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+#carousel ul.carousel-content {
+  position: relative;
+}
+
+#carousel ul.carousel-content > li {
+  width: 866px;
+  height: 549px;
+  float: left;
+  position: relative;
+}
+
+#carousel .mapa p.desc {
+  font-size: 18px;
+  line-height: 26px;
+}
+
+#carousel .mapa .map-container {
+  position: relative;
+}
+
+#carousel .mapa .cidade-teaser {
+  z-index:999999;
+  position:absolute;
+  -webkit-user-select:auto;
+  right:20px;
+  top:40px;
+  max-width:300px;
+  background: #efebea;
+  width: 270px;
+  padding: 20px;
+  opacity: .9;
+  text-align: center;
+  font-family: 'Ubuntu Condensed';
+  color: #000;
+}
+
+#carousel .mapa .cidade-teaser h2 {
+  color: #e7841f;
+  font-size: 30px;
+  margin: 0 0 10px
+}
+
+#carousel .mapa .cidade-teaser p.total {
+  font-size: 30px;
+  margin: 20px 0;
+}
+
+#carousel .mapa .cidade-teaser p.total span {
+  display: block;
+}
+
+#carousel .mapa .cidade-teaser p.total .n {
+  font-size: 80px;
+}
+
+#carousel .mapa .cidade-teaser p.total .foot {
+  font-size: 20px;
+}
+
+#carousel .mapa .cidade-teaser .tipos li {
+  font-size: 16px;
+  padding: 3px 0;
+}
+
+#carousel .mapa .cidade-teaser .tipos li span {
+  font-size: 20px;
+  color: #e8851f;
+}
+
+.wax-tooltip .close {
+  display:block;
+  position:absolute;
+  top:0px;
+  right:20px;
+}
+
+#carousel .programas p.fixed {
+  margin-top: 20px;
+}
+
+#carousel .programas #programas-more {
+  display: none;
+  height: 494px;
+  overflow: auto;
+}
+
+#carousel .programas #programas-more.active {
+  display: block;
+}
+
+#carousel .programas #programas-more .content {
+  padding: 0 60px;
+}
+
+#carousel .reportagem {
+  overflow: auto;
+}
+
+#carousel article {
+  padding: 10px 60px;
+}
+
+#carousel article h2 {
+  margin: 0 0 20px;
+  font-size: 30px;
+}
+
+#carousel article h3 {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 0 20px;
+}
+
+#carousel article p {
+  font-size: 16px;
+  line-height: 20px;
+  margin: 0 0 10px;
+}
+
+section#navegue {
+  display: none;
+}
+
+section#navegue header .landing {
+  padding: 0 40px 0 60px;
+  height: 500px;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+section#navegue h3 {
+  color: #999;
+  line-height: 24px;
+}
+
+section#navegue #filters {
+  width: 390px;
+  float: left;
+  margin: 0;
+  padding: 0;
+}
+
+section#navegue #filters > li {
+}
+
+section#navegue #filters h2 {
+  background: url(img/filter_title_bg.jpg) top repeat-x;
+  line-height: 60px;
+  text-align: center;
+  font-family: 'Amatic SC';
+  font-weight: 700;
+  font-size: 30px;
+  margin: 0;
+}
+
+section#navegue #filters select {
+  width: 390px;
+}
+
+section#navegue #filters .chzn-container {
+  margin: 0;
+  font-size: 16px;
+  display: block;
+  outline: 0;
+}
+
+section#navegue #filters .chzn-container .chzn-single {
+  background: transparent;
+  border: 0;
+  padding: 13px 10px;
+}
+
+
+section#navegue #filters .chzn-container .chzn-results .highlighted {
+  background: #faca2c;
+}
+
+.chzn-container-single .chzn-single div b {
+  background-position: center;
+}
+
+section#navegue #filters .chzn-container .search-choice-close {
+  top: 18px;
+  right: 35px;
+}
+
+section#navegue #filters .chzn-container .chzn-drop {
+  background: url(img/bg2.jpg);
+}
+
+section#navegue #filter_map {
+  width: 390px;
+  height: 250px;
+  margin: 0 0 20px;
+}
+
+section#navegue #filter_map .cidade-marker {
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  background: url(img/marker.png);
+  position: absolute;
+  cursor: pointer;
+}
+
+section#navegue #filter_map .cidade-marker .cidade-tip {
+  position: absolute;
+  width: 200px;
+  top: -22px;
+  left: -85px;
+  text-align: center;
+  font-size: 16px;
+  display: none;
+  color: #000;
+  font-weight: bold;
+}
+
+section#navegue #filter_map .cidade-marker:hover .cidade-tip,
+section#navegue #filter_map .cidade-marker.active .cidade-tip {
+  display: block;
+}
+
+section#navegue .results-container {
+  width: 460px;
+  float: right;
+}
+
+section#navegue #data {
+  float: right;
+  width: 100%;
+  height: 600px;
+  padding-bottom: 70px;
+  padding-right: 10px;
+  margin-right: -10px;
+  overflow: auto;
+}
+
+section#navegue #data header {
+  position: relative;
+  z-index: 1;
+}
+
+section#navegue #data header h2 {
+  font-family: 'Amatic SC';
+  font-weight: 700;
+  font-size: 42px;
+  margin: 0 0 20px;
+}
+
+section#navegue #data #graphs {
+  position: relative;
+}
+
+section#navegue #data .graph-container {
+  margin: -50px 0;
+}
+
+section#navegue #data-table table {
+  width: 100%;
+  margin: 0 0 20px;
+}
+
+section#navegue #data-table table tr td.filterable {
+  color: #000;
+}
+
+section#navegue #data-table table tr td.filterable:hover {
+  background-color: #E5C1B3;
+  color: #C33132;
+  cursor: pointer;
+}
+
+section#navegue #data-table table tr:nth-child(odd) {
+  background-color: #f1eee5;
+}
+
+
+section#navegue #data-table table tr th {
+  font-size: 12px;
+  text-align: center;
+  padding: 10px;
+  margin: 1px;
+  border: 1px solid #fff;
+  background: #eee;
+  vertical-align: middle;
+  text-transform: uppercase;
+}
+
+section#navegue #data-table table tr th.n {
+  color: #e8851f;
+}
+
+section#navegue #data-table table tr th.m,
+section#navegue #data-table table tr td.m {
+  color: #9ab485;
+}
+
+section#navegue #data-table table tr td {
+  font-size: 14px;
+  text-align: center;
+  padding: 5px 0;
+  vertical-align: middle;
+}
+
+section#navegue #data-table table tr td.n {
+  font-size: 16px;
+  font-weight: bold;
+  color: #e8851f;
+}
+
+section#navegue #data-table table tr td.m {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+section#navegue #data-table table tr.total,
+section#navegue #data-table table tr.total td.n,
+section#navegue #data-table table tr.total td.m {
+  background-color: #e5c1b3;
+  color: #c33132 !important;
+}
+
+section#navegue #data-table table.regular th.total {
+  width: 35%;
+}
+
+section#navegue #data-table table.regular tr th.n {
+  width: 15%;
+  position: relative;
+}
+
+section#navegue #data-table table.regular tr th.n:before {
+  content: '';
+  position: absolute;
+  width: 42px;
+  height: 51px;
+  right: 20px;
+  top: -22px;
+  background: url(img/table_number_arrow.png);
+}
+
+section#navegue #data h3 {
+  margin: 20px 0 5px 0;
+}
+
+section#navegue #data-table table th.total,
+section#navegue #data-table table td.total {
+  background: #e5c1b3;
+  color: #c33132;
+  font-weight: bold;
+  border: 0;
+}
+
+section#navegue #data-table table td.total {
+  font-size: 92px;
+}
+
+section#navegue #data-table table td.total span {
+  font-size: 12px;
+  display:block;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+section#navegue #data-table p.total {
+  float: left;
+  color: #c33132;
+  font-size: 22px;
+  line-height: 50px;
+}
+
+section#navegue #links {
+  float: right;
+}
+
+section#navegue #irregularidades {
+  display: none;
+}
+
+section#navegue #irregularidades.active {
+  display: block;
+}
+
+section#navegue #irregularidades table {
+  font-size: 14px;
+  margin: 20px 0;
+  width: 100%;
+}
+
+section#navegue #irregularidades tr th {
+  padding: 10px 0;
+  text-align: center;
+  font-weight: bold;
+  background: #daeae0;
+}
+
+section#navegue #irregularidades tr th.category {
+  width: 33%;
+}
+
+section#navegue #irregularidades tr:nth-child(odd) {
+  background: #eeece0;
+}
+
+section#navegue #irregularidades tr td {
+   padding: 10px;
+   vertical-align: middle;
+}
+
+section#navegue #irregularidades tr td.programa {
+  text-indent: -9999px;
+  width: 100px;
+  height: 85px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+section#navegue #irregularidades tr td.programa.apoio-a-alimentacao-escolar-na-educacao-basica- {
+  background-image: url(img/icons/merenda.png);
+}
+
+section#navegue #irregularidades tr td.programa.apoio-a-reestruturacao-da-rede-fisica-publica-da-educacao-basica {
+  background-image: url(img/icons/obras.png);
+}
+
+section#navegue #irregularidades tr td.programa.complementacao-da-uniao-ao-fundeb {
+  background-image: url(img/icons/fundeb.png);
+}
+
+section#navegue #irregularidades tr td.programa.censo-escolar-da-educacao-basica {
+  background-image: url(img/icons/censo.png);
+}
+
+section#navegue #irregularidades tr td.programa.distribuicao-de-materiais-e-livros-didaticos-para-o-ensino-fundamental- {
+  background-image: url(img/icons/distribuicao_livros.png);
+}
+
+section#navegue #irregularidades tr td.programa.apoio-a-formacao-de-professores-e-profissionais-para-a-educacao-especial- {
+  background-image: url(img/icons/educacao_especial.png);
+}
+
+section#navegue #irregularidades tr td.programa.apoio-ao-transporte-escolar-na-educacao-basica {
+  background-image: url(img/icons/transporte.png);
+}
+
+section#navegue #irregularidades tr td.programa.dinheiro-direto-na-escola-para-a-educacao-basica {
+  background-image: url(img/icons/dinheiro_direto.png);
+}
+
+section#navegue #irregularidades tr td.programa.apoio-ao-desenvolvimento-da-educacao-basica {
+  background-image: url(img/icons/apoio_educacao.png);
+}
+
+section#copy {
+  display: none;
+}
+
+section#copy article {
+  padding: 80px 100px;
+}
+
+section#copy article h2 {
+  font-size: 30px;
+  margin: 0 0 20px;
+}
+
+section#copy article table {
+  width: 100%;
+  margin: 0 0 20px;
+}
+
+section#copy article table td {
+  vertical-align: middle;
+}
+
+section#copy article table tr td:first-child {
+  border-bottom: 1px solid #ffe6cc;
+}
+
+section#copy article table td a {
+  display: block;
+  padding: 10px;
+  background: #ffe6cc;
+  color: #e6851e;
+  text-decoration: none;
+  text-align: center;
+  margin: 1px;
+}
+
+section #copy article table td a:hover {
+  background: transparent;
+  color: #000;
+}
+
+section#copy p.github {
+  background: #ffe6cc;
+  color: #e6851e;
+  padding: 20px;
+  font-weight: bold;
+}
+
+section#copy p.github a {
+  color: #000;
+}
+
+footer {
+  width: 100%;
+}
+
+footer #credits {
+  width: 886px;
+  margin: 0 auto;
+  height: 90px;
+  padding: 0 0 20px;
+  text-indent: -9999px;
+  background: url(img/credits.png) center right no-repeat;
+}
+
+/* --------------------------------------------------------
+  Wax, largely taken from theme/controls.css
+--------------------------------------------------------- */
+
+a.zoomer {
+  z-index: 1;
+  text-decoration:none;
+  position:absolute;
+  background-color:#fff;
+  line-height:30px;
+  font-size:20px;
+  text-align:center;
+  width:30px;
+  height:30px;
+  top: 20px;
+  border-bottom: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  color: #333;
+  box-shadow:rgba(0,0,0,0.1) 3px 3px 3px;
+  -moz-box-shadow:rgba(0,0,0,0.1) 3px 3px 3px;
+  -webkit-box-shadow:rgba(0,0,0,0.1) 3px 3px 3px;
+  }
+  a.zoomin {
+    left:20px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    -moz-border-top-left-radius: 3px;
+    -moz-border-bottom-left-radius: 3px;
+    }
+  a.zoomout {
+    left:50px;
+    border-left: 1px solid #ccc;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    -moz-border-top-right-radius: 3px;
+    -moz-border-bottom-right-radius: 3px;
+    }
+
+.wax-fade {
+  display: none;
+}

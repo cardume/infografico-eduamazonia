@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+    <meta name='apple-mobile-web-app-status-bar-style' content='black' />
+    <meta name='apple-mobile-web-app-capable' content='yes' />
+    <title>Educação na Amazônia</title>
+    <link href='http://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Condensed' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="all" href="js/chosen.css">
+    <link rel="stylesheet" type="text/css" media="all" href="js/mmg.css">
+    <link rel="stylesheet" type="text/css" media="all" href="js/jquery.jscrollpane.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="site.css" rel="stylesheet">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src='js/modestmaps.min.js'></script>
+    <script type="text/javascript" src='js/easey.js'></script>
+    <script type="text/javascript" src='js/easey.handlers.js'></script>
+    <script type="text/javascript" src='js/wax.mm.min.js'></script>
+    <script type="text/javascript" src="js/jlinq.js"></script>
+    <script type="text/javascript" src="js/chosen.jquery.js"></script>
+    <script type="text/javascript" src="js/mmg.js"></script>
+    <script type="text/javascript" src="js/mmg_interaction.js"></script>
+    <script type="text/javascript" src="js/jquery.mousewheel.js"></script>
+    <script type="text/javascript" src="js/jquery.jscrollpane.min.js"></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" src='js/site.js'></script>
+</head>
+<body>
+    <header>
+        <img src="img/header01.jpg" />
+        <img src="img/header02.png" />
+        <h1>Os caminhos da corrupção</h1>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="#" data-section="visao-geral">Visão Geral</a></li>
+                <li><a href="#" data-section="navegue">Navegue pelos dados</a></li>
+                <li><a href="#" data-section="copy">Copie os dados</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <section id="main">
+            <section id="visao-geral" class="main-section">
+                <div id="carousel">
+                    <nav id="visao-geral-nav">
+                        <ul>
+                            <li class="active" data-slide="mapa"><a href="#">Cidades auditadas</a></li>
+                            <li data-slide="programas"><a href="#">Programas do governo</a></li>
+                            <li data-slide="tipos"><a href="#">Tipos de irregularidade</a></li>
+                            <li data-slide="reportagem"><a href="#">Reportagem</a></li>
+                        </ul>
+                    </nav>
+                    <div class="clearfix"></div>
+                    <a href="#" title="Voltar" class="prev">Voltar</a>
+                    <a href="#" title="Avançar" class="next">Avançar</a>
+                    <div class="carousel-wrapper">
+                        <ul class="carousel-content">
+                            <li class="mapa" data-slide="mapa">
+                                <p class="desc">A Pública leu os relatórios da CGU e detectou irregularidades em 32 cidades, relativas a 8 programas do Ministério da Educação. As irregularidades foram divididas em 5 tipos e transformadas neste infográfico interativo. Navegue pelo mapa e saiba o que há de errado em cada um destes municípios da Amazônia.</p>
+                                <div class="map-container">
+                                    <div id="map" class="fullscreen"></div>
+                                    <div class="default-tip">
+                                        <div class="cidade-teaser">
+                                            <h2>Região norte</h2>
+                                            <p class="total">
+                                                <span class="head">total de</span>
+                                                <span class="n">619</span>
+                                                <span class="foot">irregularidades</span>
+                                            </p>
+                                            <ul class="tipos">
+                                                <li><span>193</span> em despesa irregular</li>
+                                                <li><span>25</span> em desvio de finalidade</li>
+                                                <li><span>241</span> em falta de controle administrativo</li>
+                                                <li><span>57</span> em falta de controle social</li>
+                                                <li><span>103</span> em falta de prestação de contas</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="programas" data-slide="programas">
+                                <div class="graph">
+                                    <p>Número de irregularidades por programa de governo e por estado</p>
+                                    <img src="img/grafico_geral_programas.jpg" alt="Número de irregularidades por programa de governo" />
+                                </div>
+                                <div id="programas-more">
+                                    <article id="programas" class="content">
+                                        <ul>
+                                            <li>
+                                                <h2>Merenda</h2>
+                                                <h3>Apoio a Alimentação Escolar na Educação Básica - PNAE</h3>
+                                                <p>O Programa Nacional de Alimentação Escolar (PNAE) garante, por meio da transferência de recursos financeiros, a alimentação escolar dos alunos de toda educação básica matriculados em escolas públicas e filantrópicas, incluindo educação de jovens e adultos, escolas indígenas e as localizadas em áreas remanescentes de Quilombolas. É considerado o maior projeto de alimentação escolar do mundo, beneficiando 62,5 milhões de alunos só em 2009, por meio do repasse de recursos financeiros aos estados, Distrito Federal e municípios, da ordem de R$ 2 bilhões. Fonte: Ministério da Educação (Relatório de Avaliação do Plano Plurianual 2008-2011)</p>
+                                            </li>
+                                            <li>
+                                                <h2>Capacitação para Educação Especial</h2>
+                                                <h3>Apoio a Formação de Professores e Profissionais para a Educação Especial</h3>
+                                                <p>Tem por objetivo formar professores dos sistemas estaduais e municipais de ensino, que atuam no atendimento educacional especializado e na sala de aula comum, por meio da constituição de uma rede nacional de instituições públicas de educação superior que ofertem cursos de formação continuada de professores na modalidade à distância. Em 2009, contemplou 21.350 professores de 2.193 municípios. Fonte: Ministério da Educação (Relatório de Avaliação do Plano Plurianual 2008-2011)</p>
+                                            </li>
+                                            <li>
+                                                <h2>Obras nas escolas</h2>
+                                                <h3>Apoio a reestruturação da rede fisica publica da Educação Básica</h3>
+                                                <p>Tem como finalidade conceder apoio, mediante a transferência de recursos financeiros para construções, ampliações, reformas, adequações e adaptações de unidades de educação infantil padronizadas, assegurando condições apropriadas de infraestrutura e funcionamento aos estabelecimentos de educação básica pública. Em 2009, foram atendidas 1.036 escolas, o que equivale a 94% da meta estabelecida, com recursos da ordem de R$ 547 milhões. Fonte: Ministério da Educação (Relatório de Avaliação do Plano Plurianual 2008-2011)</p>
+                                            </li>
+                                            <li>
+                                                <h2>Apoio à Educação Básica</h2>
+                                                <h3>Apoio ao Desenvolvimento da Educação Básica</h3>
+                                                <p>Dada sua característica peculiar, propicia a execução de múltiplas iniciativas, além de ser fundamental para a efetivação das demandas oriundas dos Planos de Ações Articuladas (PAR). Apóia projetos que visam contribuir para o desenvolvimento e melhoria qualitativa do processo educacional em todas as etapas da educação básica. Isso ocorre por meio do financiamento de iniciativas do MEC, estabelecidas com as instituições públicas de todas as esferas de governo, quando couber e quando estabelecidas as prioridades. Em 2009, foram financiados projetos de construção de escolas nas regiões Norte e Nordeste; adquiridos mobiliários e equipamentos de escola, material didático e pedagógico; capacitados professores e profissionais da educação; além de apoiados eventos educacionais e de monitoramento e avaliação. Fonte: Ministério da Educação (Relatório de Avaliação do Plano Plurianual 2008-2011)</p>
+                                            </li>
+                                            <li>
+                                                <h2>Transporte Escolar</h2>
+                                                <h3>Caminho da Escola e Apoio ao Transporte Escolar na Educação Básica - PNATE</h3>
+                                                <p>Há duas iniciativas voltadas ao transporte de estudantes: Caminho da Escola e Apoio ao Transporte Escolar na Educação Básica - PNATE. Ambos visam ao atendimento de alunos moradores da zona rural.</p>
+                                                <p>O Caminho da Escola consiste na concessão, pelo Banco Nacional de Desenvolvimento Econômico e Social (BNDES), de linha de crédito especial para aquisição, pelos estados e municípios, de ônibus e microônibus zero quilômetro e de embarcações novas, com o objetivo de renovar frota de veículos escolares e garantir segurança e qualidade ao transporte dos estudantes contribuindo para redução da evasão escolar. Portanto, ampliando o acesso e a permanência na escola dos estudantes matriculados na Educação Básica da zona rural das redes estaduais e municipais.</p>
+                                                <p>Com relação ao PNATE, esse Programa tem como objetivo garantir o acesso e a permanência nos estabelecimentos escolares dos alunos do ensino fundamental público, por meio de transferência automática, sem necessidade de convênio ou outro instrumento congênere, de recursos financeiros para custear despesas com a manutenção de veículos escolares pertencentes às esferas municipal, estadual ou distrital; bem como para contratação dos serviços terceirizados de transporte. Em 2009, foram atendidos 4.962 municípios com recursos da ordem de R$ 421,7 milhões, o que beneficiou cerca de 5 milhões de alunos. Fonte: Ministério da Educação (Relatório de Avaliação do Plano Plurianual 2008-2011)</p>
+                                            </li>
+                                            <li>
+                                                <h2>Censo Escolar</h2>
+                                                <h3>Censo Escolar da Educação Básica</h3>
+                                                <p>Objetiva, por meio da realização do Censo Escolar em todo o país, a coleta de dados sobre estabelecimentos, matrículas, funções docentes, movimento e rendimento escolar. Trata-se do principal instrumento de coleta de informações da educação básica; abrange as suas diferentes etapas e modalidades. Com o fim de melhorar a qualidade da informação colhida pelo Censo Escolar, em 2007, foi criado o Educacenso, que é um sistema informatizado, fundamentado não apenas na quantidade de matrículas, mas, também, nos dados individualizados de cada estudante, professor, turma e escola do País, tanto da rede pública quanto da rede privada, evitando a duplicidade de cadastro de alunos e docentes. No ano de 2009, o Censo Escolar incluiu quesitos sobre jornada ampliada e educação em tempo integral. Foram contabilizados no Brasil, 52.580.452 estudantes na educação básica, que compreende a educação infantil (creche e pré-escola), o ensino fundamental (1º a 9º ano ou 1ª a 8ª série), o ensino médio, a educação profissional, a educação especial e a educação de jovens e adultos (nas etapas ensino fundamental e ensino médio). Do total de 197.468 escolas, aproximadamente, 86% de matrículas e 82% de escolas pertencem à rede pública de ensino. Em 2009, a ação executou R$ 9,5 milhões. Fonte: Ministério da Educação (Relatório de Avaliação do Plano Plurianual 2008-2011)</p>
+                                            </li>
+                                            <li>
+                                                <h2>FUNDEB</h2>
+                                                <h3>Complementação da União ao Fundo de Manutenção e Desenvolvimento da Educação Básica e de Valorização dos Profissionais da Educação - Fundeb</h3>
+                                                <p>Tem o objetivo primordial de melhorar a qualidade do ensino, beneficiando maior quantidade de alunos em território nacional, por meio da redistribuição de recursos previstos constitucionalmente. Essa ação assegura a participação da União, a título de complementação, na composição do Fundeb dos estados que apresentam valor per capita aluno/ano abaixo do valor mínimo nacional. Em 2009, foram destinados R$ 5,1 bilhões aos Estados de Alagoas, Amazonas, Bahia, Ceará, Maranhão, Pará, Paraíba, Pernambuco e Piauí, beneficiando um total de 16,5 milhões de alunos, que constituem parte dos 45,3 milhões de alunos da educação básica contemplados com os recursos do Fundeb. Os recursos financeiros que compõem o Fundo alcançaram o montante de aproximadamente R$ 67,1 bilhões, em 2009. Fonte: Ministério da Educação (Relatório de Avaliação do Plano Plurianual 2008-2011)</p>
+                                            </li>
+                                            <li>
+                                                <h2>Dinheiro Direto na Escola</h2>
+                                                <h3>Dinheiro Direto na Escola para a Educação Básica</h3>
+                                                <p>Tem por finalidade prestar assistência financeira, em caráter suplementar, às escolas públicas de educação básica, das redes estaduais, municipais e do Distrito Federal, e às escolas privadas de educação especial, mantidas por entidades privadas sem fins lucrativos. A iniciativa objetiva a melhoria da infraestrutura física e pedagógica das escolas, incluindo manutenção e conservação, e o reforço da autogestão escolar no plano financeiro, administrativo e didático; aquisição de equipamento, de material didático-pedagógico e de consumo; e capacitação/aperfeiçoamento de profissionais da educação. Foram beneficiadas 134 mil escolas com investimentos de aproximadamente R$ 1,2 bilhão. Destaca-se que, em 2009, foi acrescida parcela extra de 50% nas transferências de recursos do PDDE a todas as escolas públicas rurais da educação básica e às escolas públicas urbanas do ensino fundamental que cumpriram as execuções intermediárias do Índice de Desenvolvimento da Educação Básica (Ideb). Aproximadamente 26 mil escolas cumpriram essas execuções. Fonte: Ministério da Educação (Relatório de Avaliação do Plano Plurianual 2008-2011)</p>
+                                            </li>
+                                            <li>
+                                                <h2>Distribuição de Livros</h2>
+                                                <h3>Distribuição de Materiais e Livros Didáticos para o Ensino Fundamental – PNLD</h3>
+                                                <p>O Programa Nacional do Livro Didático provê de livros e materiais didáticos e de referência de qualidade os alunos e professores do ensino fundamental das redes federal, estadual, municipal e distrital. Em 2009, colaborou com a aquisição de 110 milhões de livros para beneficiar alunos do 1º ao 5º ano do ensino fundamental das redes públicas de ensino. Foram adquiridas, também, obras complementares para serem distribuídas às turmas do 1º e 2º ano do ensino fundamental da rede pública de ensino, totalizando 6,6 milhões de livros para o PNLD, fazendo com que a meta física ficasse 10,2% acima do previsto. Um total de 134,8 mil escolas e cerca de 29 milhões de alunos foram beneficiados com investimentos de R$ 591,4 milhões. Fonte: Ministério da Educação (Relatório de Avaliação do Plano Plurianual 2008-2011)</p>
+                                            </li>
+                                        </ul>
+                                    </article>
+                                </div>
+                                <p class="fixed alignright"><a href="#" class="programas-toggle small">Saiba mais sobre os programas do Ministério da Educação</a></p>
+                            </li>
+                            <li class="tipos" data-slide="tipos">
+                                <p>Número de irregularidades por tipo e por estado</p>
+                                <img src="img/grafico_geral_tipos.jpg" alt="Número de irregularidades por tipo" />
+                            </li>
+                            <li class="reportagem" data-slide="reportagem">
+                                <article id="reportagem">
+                                    <header>
+                                        <h2>Má gestão, corrupção e descontrole</h2>
+                                    </header>
+                                    
+                                    <p>O Ministério da Educação gastou R$ 15,2 bilhões de reais em repasses aos municípios em 2011 para melhorar a educação básica, mas em muitas regiões o objetivo não vem sendo atingido. Na região amazônica, onde os <a href="http://apublica.org/2012/07/amazonia-1/" target="_blank">dados sobre desempenho escolar</a> são desanimadores, os recursos estão indo pelo ralo da corrupção e do desperdício.</p>
+                                    
+                                    <p><a href="http://apublica.org/2012/07/amazonia-1/" target="_blank">Veja a primeira reportagem desta série</a></p>
+                                    
+                                    <p>Agora, a Pública analisou <a href="http://www.cgu.gov.br/sorteios/index1.asp" target="_blank">relatórios de auditorias da CGU</a> (Controladoria-Geral da União) em 32 cidades nos estados da região Norte entre 2010 e 2011. Os dados compilados a partir dos relatórios revelam indícios de corrupção e problemas na gestão do dinheiro da educação. Em vez de chegar às escolas, a verba repassada pelo governo federal se perde em irregularidades diversas. A Pública organizou essas irregularidades em 5 tipos: má administração, despesas irregulares, falta de prestação de contas, ausência de controle social e casos de desvios de finalidade.</p>
+                                    
+                                    <p>Após as visitas a essas 32 cidades do Acre, Amapá, Amazonas, Pará, Rondônia, Roraima e Tocantins, os técnicos da CGU registraram 619 irregularidades, o que resulta numa média de quase 20 por município. Do total de problemas detectados, quase 40% se referem a má gestão; cerca de 30% indicam despesas irregulares (que podem ser fraudes em licitação e superfaturamento, por exemplo); e 17% apontam ausência de prestação de contas - um forte indício de corrupção.</p>
+                                    
+                                    <p>A falta de controle social, principal mecanismo para fiscalizar a aplicação das verbas, foi detectada em vários municípios. Os relatórios apontam 57 irregularidades nesse campo, indicando que os <a href="http://revistaescola.abril.com.br/gestao-escolar/diretor/conselho-municipal-educacao-participacao-autonomia-423313.shtml" target="_blank">Conselhos Municipais de Educação</a> – criados para que a sociedade possa monitorar as políticas públicas em Educação – não estão funcionando.</p>
+                                    
+                                    <h3>Problemas na gestão: falta de profissionalismo e de controle</h3>
+                                    
+                                    <p>Os relatórios analisados pela Pública indicam um quadro de despreparo dos funcionários em diversas cidades: foram 241 irregularidades por falta de controle administrativo, uma média de 7,5 por cidade.</p>
+
+                                    <p>Mas de que irregularidades estamos falando? Os relatórios trazem casos de ineficiência de controle de estoque e de distribuição de alimentos; recursos aplicados fora do prazo; erros na contratação de responsáveis por obras, falha na elaboração de projetos básicos pra creches; falta de controle sobre dados dos veículos e dos condutores nos programas de transporte; inadequação ou ausência de ficha de matrícula dos alunos; e falta de conhecimentos técnicos para alimentar o <a href="http://www.fnde.gov.br/index.php?option=com_content&view=article&id=517&Itemid=261" target="_blank">sistema informatizado de distribuição de livros</a> - o que resulta em erros na distribuição de livros didáticos.</p>
+
+                                    <p>Isso significa que mesmo os sistemas criados para melhorar a gestão dos recursos estão sendo mal utilizados ou subutilizados em algumas prefeituras da Amazônia.</p>
+
+                                    <p>“Um dos grandes desafios do país nas próximas décadas é criar burocracia de qualidade nos estados e municípios”, afirmou, em <a href="http://www.inovagov.com.br/index.php?page=entrevista-fernando-abrucio" target="_blank">entrevista</a> recente, o cientista político Fernando Abrucio, da Fundação Getúlio Vargas de São Paulo, referindo-se ao corpo de funcionários que administra os programas de Educação em cada município. Para o pesquisador, tem havido inovações em matéria de políticas públicas, mas ainda falta “criar uma estrutura burocrática que dê conta do longo prazo”.</p>
+
+                                    <h3>Corrupção na Educação: causas e efeitos</h3>
+
+                                    <p>Uma burocracia mais profissionalizada é essencial para reduzir a ocorrência de despesas irregulares e a falta de prestação de contas, problemas frequentes segundo os relatórios da CGU.</p>
+
+                                    <p>Somente em 2009, sete dos nove programas do governo federal analisados para esta reportagem (veja o infográfico LINK) enviaram a estados e municípios R$ 9,8 bilhões, de acordo com <a href="http://portal.mec.gov.br/index.php?Itemid=&gid=7192&option=com_docman&task=doc_download" target="_blank">relatório do Ministério da Educação.</a></p>
+
+                                    <p>Recursos envados para o Fundeb (Fundo de Desenvolvimento da Educação Básica), por exemplo, renderam a estados e cidades do Brasil mais de R$ 5 bilhões só em 2009.</p>
+
+                                    <p>O Fundeb é responsável pelo pagamento dos professores, compra de materiais escolares e realização de algumas obras nas escolas. De acordo com o levantamento da Pública, o CGU constatou 142 irregularidades ligadas ao uso de recurso do Fundeb nas 32 cidades da Amazônia auditadas.</p>
+
+                                    <p>Quase 70% dessas irregularidades referem-se à auséncia de prestação de contas e despesas irregulares, como compras feitas sem licitação. Ou seja: nestes casos, há fortes indícios de corrupção.</p>
+
+                                    <p>Favorecem este cenário o centralismo exagerado das ações nas mãos dos prefeitos, a falta de critérios objetivos na definição das ações e despesas das Prefeituras com Educação e, é claro, a falta de controle social, que e gritante na região norte.</p>
+
+                                    <p>O pesquisador Clóvis de Melo, da Universidade Federal de Pernambuco, <a href="http://pedesenvolvimento.com/2011/03/20/mais-corrupcao-menos-educacao/" target="_blank">demonstrou</a> em sua <a href="http://www.bdtd.ufpe.br/tde_busca/processaPesquisa.php?PHPSESSID=9fe2d18499aa13b1977b71be4e533bdc&listaDetalhes%5B%5D=659&processar=Processar" target="_blank">tese</a> de doutorado como a corrupção tem um efeito perverso sobre o nível educacional de um município.</p>
+
+                                    <p>O levantamento, realizado a partir de dados de 556 cidades brasileiras, constatou que “nos municípios em que a corrupção foi detectada, a estrutura educacional apresentava índices de precariedade superiores aos dos municípios sem corrupção: menor número de bibliotecas, de equipamentos pedagógicos, de dependências administrativas e de estruturas de apoio, além de turmas maiores e maior contingente de professores menos qualificados e com menor remuneração”.</p>
+
+                                    <p>“Em suma, os alunos dos municípios com corrupção passam a contar com menor quantidade de insumos educacionais, o que resulta em deficiência de aprendizagem”, conclui Melo em sua tese.</p>
+                                </article>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </section>
+            <section id="navegue" class="main-section">
+                <ul id="filters">
+                    <li>
+                        <h2>Cidades</h2>
+                        <select class="filter cidade" data-type="cidade" data-placeholder="Clique para escolher uma cidade" class="chzn-select"><option value></option></select>
+                        <div id="filter_map"></div>
+                    </li>
+                    <li>
+                        <h2>Programas do governo</h2>
+                        <select class="filter programa" data-type="programa" data-placeholder="Clique para escolher um programa" class="chzn-select"><option value></option></select>
+                    </li>
+                    <li>
+                        <h2>Tipos de irregularidade</h2>
+                        <select class="filter tipo" data-type="tipo" data-placeholder="Clique para escolher um tipo de irregularidade" class="chzn-select"><option value></option></select>
+                    </li>
+                </ul>
+                <div class="results-container">
+                    <section id="data">
+                        <header>
+                            <div class="landing">
+                                <h2>Navegue pelos dados!</h2>
+                                <h3>Selecione ao lado cidade, programa e/ou tipo de irregularidade que deseja filtrar.</h3>
+                                <h3>As opções escolhidas podem ser somadas para cruzar dados e gerar diferentes visualizações.</h3>
+                            </div>
+                            <div class="inside"></div>
+                        </header>
+                        <section id="data-table"></section>
+                        <nav id="links"></nav>
+                        <div class="clearfix"></div>
+                        <section id="irregularidades"></section>
+                        <section id="graphs"></section>
+                    </section>
+                </div>
+                <div class="clearfix"></div>
+            </section>
+            <section id="copy" class="main-section">
+                <article>
+                    <header>
+                        <h2>Copie os dados utilizados no infográfico</h2>
+                    </header>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Lista de irregularidades</td>
+                                <td><a href="http://docs.google.com/spreadsheet/pub?key=0Avi2PVZYFw_2dGdhcFV3SGNpb01BQmN6aHpWSVBOcXc&single=true&gid=0&output=csv" target="_blank">CSV</a></td>
+                                <td><a href="constatacoes.json.php?data=geral" target="_blank">JSON</a></a></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Lista de cidades</td>
+                                <td><a href="https://docs.google.com/spreadsheet/pub?key=0Avi2PVZYFw_2dGdhcFV3SGNpb01BQmN6aHpWSVBOcXc&single=true&gid=3&output=csv" target="_blank">CSV</a></td>
+                                <td><a href="constatacoes.json.php?data=cidade" target="_blank">JSON</a></a></td>
+                                <td><a href="cidades.geojson" target="_blank">GeoJSON</td>
+                            </tr>
+                            <tr>
+                                <td>Lista de tipos de irregularidade</td>
+                                <td><a href="https://docs.google.com/spreadsheet/pub?key=0Avi2PVZYFw_2dGdhcFV3SGNpb01BQmN6aHpWSVBOcXc&single=true&gid=5&output=csv" target="_blank">CSV</a></td>
+                                <td><a href="constatacoes.json.php?data=tipo" target="_blank">JSON</a></a></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Lista de programas do governo</td>
+                                <td><a href="https://docs.google.com/spreadsheet/pub?key=0Avi2PVZYFw_2dGdhcFV3SGNpb01BQmN6aHpWSVBOcXc&single=true&gid=4&output=csv" target="_blank">CSV</a></td>
+                                <td><a href="constatacoes.json.php?data=programa" target="_blank">JSON</a></a></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="github">O código desenvolvido para este infográfico interativo está distribuído sob a <a href="http://www.gnu.org/licenses/gpl-3.0.html" target="_blank">licença GPLv3</a> e disponível para download no seu repositório.<br/><br/> <a href="https://github.com/Cardume/infografico-eduamazonia" target="_blank">Acesse o repositório</a> ou <a href="https://github.com/Cardume/infografico-eduamazonia/zipball/master" target="_blank">faça o download</a></p>
+                </article>
+            </section>
+        </section>
+        <footer>
+            <section id="credits">
+                Apoio: Fundação Fundação Carlos Chagas.
+                Infográfico por Casa da Cultura Digital, com Agência Pública, Estúdio Cardume e Scarlett
+            </section>
+        </footer>
+    </div>
+</body>
+</html>
