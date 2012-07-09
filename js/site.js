@@ -6,7 +6,7 @@ $(document).ready(function() {
     $('#carousel').carousel({
         slideSpeed: 700,
     });
-    $('#carousel .reportagem').jScrollPane();
+    $('#carousel .reportagem').jScrollPane({autoReinitialise: true});
 });
 
 
