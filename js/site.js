@@ -250,33 +250,6 @@ function loadSection(section) {
             }
         }
 
-        function updateCurrentData() {
-            currentData = {};
-            $.each(categories, function(i, category) {
-                currentData[category] = getCategoryCurrentData(selectedFilters, category);
-            });
-            currentData.irregularidades = getIrregularidades(selectedFilters);
-        }
-
-        function getCategoryCurrentData(filters, category) {
-            var availableCategoryData = [];
-            var i = 0;
-            $.each(eduamazonia[category], function(key, value) {
-                var filtering = {};
-                var count;
-                filtering[category] = value[category];
-                var mixedFilter = $.extend({}, filters, filtering);
-                count = getIrregularidadesCount(mixedFilter);
-                if(count >= 1) {
-                    availableCategoryData[i] = value;
-                    availableCategoryData[i].count = count;
-                    i++;
-                }
-            });
-            var sortedData = jLinq.from(availableCategoryData).sort('-count').select();
-            return sortedData;
-        }
-
         // filter map
 
         var filter_map;
@@ -357,6 +330,41 @@ function loadSection(section) {
                 $('.cidade-marker[data-cidade="'+markerId+'"]').addClass('active');
         }
     }
+}
+
+function updateCurrentData() {
+    currentData = {};
+    $.each(categories, function(i, category) {
+        currentData[category] = getCategoryData(selectedFilters, category);
+    });
+    currentData.irregularidades = getIrregularidades(selectedFilters);
+}
+
+function getData(filters, categories) {
+    customData = {};
+    $.each(categories, function(i, category) {
+        currentData[category] = getCategoryData(filters, category);
+    });
+    customData.irregularidades = getIrregularidades(filters);
+}
+
+function getCategoryData(filters, category) {
+    var availableCategoryData = [];
+    var i = 0;
+    $.each(eduamazonia[category], function(key, value) {
+        var filtering = {};
+        var count;
+        filtering[category] = value[category];
+        var mixedFilter = $.extend({}, filters, filtering);
+        count = getIrregularidadesCount(mixedFilter);
+        if(count >= 1) {
+            availableCategoryData[i] = value;
+            availableCategoryData[i].count = count;
+            i++;
+        }
+    });
+    var sortedData = jLinq.from(availableCategoryData).sort('-count').select();
+    return sortedData;
 }
 
 // add category filter
@@ -475,10 +483,10 @@ function theMagic() {
             - cidade
         */
         $graphsContainer.append('<div id="graph01" class="graph-container"></div><div id="graph02" class="graph-container"></div>');
-        drawPieChart('', selectedFilters, 'programa', 'graph01');
+        drawPieChart('programa', 'graph01');
         $('#graph01').before('<h3>Irregularidades por programa</h3>');
         tableData.programa = currentData.programa;
-        drawColumnChart('', selectedFilters, 'cidade', 'graph02');
+        drawColumnChart('cidade', 'graph02');
         $('#graph02').before('<h3>Irregularidades por cidade</h3>');
 
         // data table
@@ -513,10 +521,10 @@ function theMagic() {
             - cidade
         */
         $graphsContainer.append('<div id="graph01" class="graph-container"></div><div id="graph02" class="graph-container"></div>');
-        drawPieChart('', selectedFilters, 'tipo', 'graph01');
+        drawPieChart('tipo', 'graph01');
         $('#graph01').before('<h3>Irregularidades por tipo</h3>');
         tableData.tipo = currentData.tipo;
-        drawColumnChart('', selectedFilters, 'cidade', 'graph02');
+        drawColumnChart('cidade', 'graph02');
         $('#graph02').before('<h3>Irregularidades por cidade</h3>');
 
         // data table
@@ -551,11 +559,12 @@ function theMagic() {
             - programa
         */
         $graphsContainer.append('<div id="graph01" class="graph-container"></div><div id="graph02" class="graph-container"></div>');
-        drawPieChart('', selectedFilters, 'programa', 'graph01');
+        drawPieChart('programa', 'graph01');
         $('#graph01').before('<h3>Irregularidades por programa</h3>');
         tableData.programa = currentData.programa;
-        drawPieChart('Total', selectedFilters, 'programa', 'graph02');
-        $('#graph02').before('<h3>Comparativo com o total de irregularidades por programa</h3>');
+        var comparativoData = getData({'tipo' : selectedFilters.tipo}, ['programa']);
+        drawPieChart('programa', 'graph02', comparativoData);
+        $('#graph02').before('<h3>Comparativo com o total em todas as cidades</h3>');
 
         // data table
         var tableContent = '';
@@ -587,7 +596,7 @@ function theMagic() {
             - cidade
         */
         $graphsContainer.append('<div id="graph01" class="graph-container"></div>');
-        drawColumnChart('', selectedFilters, 'cidade', 'graph01');
+        drawColumnChart('cidade', 'graph01');
         $('#graph01').before('<h3>Irregularidades por cidade</h3>');
         tableData.cidade = currentData.cidade;
 
@@ -612,11 +621,12 @@ function theMagic() {
             - tipo
         */
         $graphsContainer.append('<div id="graph01"></div><div id="graph02"></div>');
-        drawPieChart('Filtro', selectedFilters, 'tipo', 'graph01');
+        drawPieChart('tipo', 'graph01');
         $('#graph01').before('<h3>Irregularidades por tipo</h3>');
         tableData.tipo = currentData.tipo;
-        drawPieChart('Total', selectedFilters, 'tipo', 'graph02');
-        $('#graph02').before('<h3>Comparativo com o total de irregularidades por tipo</h3>');
+        var comparativoData = getData({'programa' : selectedFilters.programa}, ['tipo']);
+        drawPieChart('tipo', 'graph02', comparativoData);
+        $('#graph02').before('<h3>Comparativo com o total em todas as cidades</h3>');
 
         // data table
         var tableContent = '';
@@ -724,12 +734,17 @@ function getCidadeGraphData(filters) {
     return data;
 }
 
-function getPieGraphData(filters, category) {
+function getPieGraphData(category, customData) {
+    // data
+    if(typeof customData == 'undefined')
+        var graphData = currentData;
+    else
+        var graphData = customData;
     var data = [];
     data[0] = [];
     data[0][0] = '';
     data[0][1] = '';
-    jQuery.each(currentData[category], function(i, catData) {
+    jQuery.each(graphData[category], function(i, catData) {
         data[i+1] = [];
         data[i+1][0] = catData[category];
         data[i+1][1] = catData.count;
@@ -737,23 +752,28 @@ function getPieGraphData(filters, category) {
     return data;
 }
 
-function getColumnGraphData(filters, category) {
+function getColumnGraphData(category, customData) {
+    // data
+    if(typeof customData == 'undefined')
+        var graphData = currentData;
+    else
+        var graphData = customData;
     var data = [];
     data[0] = [];
     data[1] = [];
     data[0][0] = '';
     data[1][0] = '';
-    jQuery.each(currentData[category], function(i, catData) {
+    jQuery.each(graphData[category], function(i, catData) {
         data[0][i+1] = catData[category];
         data[1][i+1] = catData.count;
     });
     return data;
 }
 
-function drawPieChart(title, filters, categories, containerId) {
+function drawPieChart(category, containerId, customData) {
     var wrapper = new google.visualization.ChartWrapper({
         chartType: 'PieChart',
-        dataTable: getPieGraphData(filters, categories),
+        dataTable: getPieGraphData(category, customData),
         options: {
             width: 450,
             height: 400,
@@ -765,10 +785,10 @@ function drawPieChart(title, filters, categories, containerId) {
     return;
 }
 
-function drawColumnChart(title, filters, categories, containerId) {
+function drawColumnChart(category, containerId, customData) {
     var wrapper = new google.visualization.ChartWrapper({
         chartType: 'ColumnChart',
-        dataTable: getColumnGraphData(filters, categories),
+        dataTable: getColumnGraphData(category, customData),
         options: {
             width: 450,
             height: 500,
