@@ -387,6 +387,10 @@ section#visao-geral nav ul li:hover a {
   padding: 0 60px;
 }
 
+#carousel .reportagem {
+  overflow: auto;
+}
+
 #carousel article {
   padding: 10px 60px;
 }
