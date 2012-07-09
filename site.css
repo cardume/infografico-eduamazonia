@@ -437,6 +437,11 @@ section#navegue #filters .chzn-container .chzn-results .highlighted {
   background-position: center;
 }
 
+section#navegue #filters .chzn-container .search-choice-close {
+  top: 18px;
+  right: 35px;
+}
+
 section#navegue #filters .chzn-container .chzn-drop {
   background: url(img/bg2.jpg);
 }

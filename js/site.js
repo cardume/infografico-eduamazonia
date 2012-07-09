@@ -349,6 +349,13 @@ function addFilter(category, value) {
     return false;
 }
 
+// clear category filter
+function clearFilter(category) {
+    $('select.' + category + 'option').attr('selected', false);
+    $('select.' + category).chosen().trigger('liszt:updated').change();
+    return false;    
+}
+
 function getIrregularidadesCount(filters) {
     var data = jLinq.from(irregularidadesData);
     jQuery.each(filters, function(key, value) {
