@@ -4,7 +4,7 @@ Os Caminhos da Corrupção
 Infográfico interativo sobre irregularidades na educação da região norte do Brasil
 ----------------------------------------------------------------------------------
 
-Entre os municípios da região norte este infográfico divide entre os programas de governo seus tipos de irregularidade e permite a visualização cruzada desses dados.
+A [Agência Pública de Reportagem e Jornalismo Investigativo](http://apublica.org/) leu os relatórios da CGU e detectou irregularidades em 32 cidades, relativas a 8 programas do Ministério da Educação. As irregularidades foram divididas em 5 tipos e transformadas neste infográfico interativo.
 
 Principais tecnologias utilizadas:
  * [Modest Maps](http://modestmaps.com/)
