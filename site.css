@@ -807,6 +807,7 @@ footer #credits {
 --------------------------------------------------------- */
 
 a.zoomer {
+  z-index: 1;
   text-decoration:none;
   position:absolute;
   background-color:#fff;
