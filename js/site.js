@@ -178,10 +178,12 @@ function loadSection(section) {
 
     if(section == 'navegue' && sectionLoaded[section] == false) {    // prepare data and filters
 
-        var scrollSettings = {};
-        var scrollPane = $('#navegue #data');
-        scrollPane.jScrollPane(scrollSettings);
-        resultsScrollApi = scrollPane.data('jsp');
+        if(!$.browser.safari) {
+            var scrollSettings = {};
+            var scrollPane = $('#navegue #data');
+            scrollPane.jScrollPane(scrollSettings);
+            resultsScrollApi = scrollPane.data('jsp');
+        }
 
         $.getJSON('constatacoes.json.php?data=geral', function(data) {
             irregularidadesData = data;
@@ -447,7 +449,8 @@ function theMagic() {
 
     if($.isEmptyObject(selectedFilters)) {
         $resultsContainer.find('.landing').show();
-        resultsScrollApi.reinitialise();
+        if(!$.browser.safari)
+            resultsScrollApi.reinitialise();
         return false;
     } else $resultsContainer.find('.landing').hide();
 
@@ -729,17 +732,20 @@ function theMagic() {
         if(!$irregularidadesContainer.hasClass('active')) {
             $irregularidadesContainer.addClass('active');
             $(this).text('Esconder a lista de irregularidades');
-            resultsScrollApi.reinitialise();
+            if(!$.browser.safari)
+                resultsScrollApi.reinitialise();
             $()
         } else {
             $irregularidadesContainer.removeClass('active');
             $(this).text('Exibir a lista de irregularidades');
-            resultsScrollApi.reinitialise();
+            if(!$.browser.safari)
+                resultsScrollApi.reinitialise();
         }
         return false;
     });
 
-    resultsScrollApi.reinitialise();
+    if(!$.browser.safari)
+        resultsScrollApi.reinitialise();
     $('.jspPane, .jspDrag').css({'top':0});
 }
 
