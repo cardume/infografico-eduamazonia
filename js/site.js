@@ -27,7 +27,8 @@ $(document).ready(function() {
         return false;
     });
 
-    $('#carousel .reportagem').jScrollPane({autoReinitialise: true});
+    if(!$.browser.safari)
+        $('#carousel .reportagem').jScrollPane({autoReinitialise: true});
 
 });
 
