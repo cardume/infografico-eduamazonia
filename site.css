@@ -666,6 +666,49 @@ section#navegue #irregularidades tr td {
    vertical-align: middle;
 }
 
+section#navegue #irregularidades tr td.programa {
+  text-indent: -9999px;
+  width: 100px;
+  height: 85px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+section#navegue #irregularidades tr td.programa.apoio-a-alimentacao-escolar-na-educacao-basica- {
+  background-image: url(img/icons/merenda.png);
+}
+
+section#navegue #irregularidades tr td.programa.apoio-a-reestruturacao-da-rede-fisica-publica-da-educacao-basica {
+  background-image: url(img/icons/obras.png);
+}
+
+section#navegue #irregularidades tr td.programa.complementacao-da-uniao-ao-fundeb {
+  background-image: url(img/icons/fundeb.png);
+}
+
+section#navegue #irregularidades tr td.programa.censo-escolar-da-educacao-basica {
+  background-image: url(img/icons/censo.png);
+}
+
+section#navegue #irregularidades tr td.programa.distribuicao-de-materiais-e-livros-didaticos-para-o-ensino-fundamental- {
+  background-image: url(img/icons/distribuicao_livros.png);
+}
+
+section#navegue #irregularidades tr td.programa.apoio-a-formacao-de-professores-e-profissionais-para-a-educacao-especial- {
+  background-image: url(img/icons/educacao_especial.png);
+}
+
+section#navegue #irregularidades tr td.programa.apoio-ao-transporte-escolar-na-educacao-basica {
+  background-image: url(img/icons/transporte.png);
+}
+
+section#navegue #irregularidades tr td.programa.dinheiro-direto-na-escola-para-a-educacao-basica {
+  background-image: url(img/icons/dinheiro_direto.png);
+}
+
+section#navegue #irregularidades tr td.programa.apoio-ao-desenvolvimento-da-educacao-basica {
+  background-image: url(img/icons/apoio_educacao.png);
+}
 
 section#copy {
   display: none;

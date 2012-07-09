@@ -647,7 +647,7 @@ function theMagic() {
         irregularidadesContent += '<th>Irregularidades</th></tr>';
         $.each(currentData.irregularidades, function(i, irregularidade) {
             irregularidadesContent += '<tr>';
-            if(category) irregularidadesContent += '<td class="' + normalize(irregularidade[category]) + '">' + irregularidade[category] + '</td>';
+            if(category) irregularidadesContent += '<td title="' + irregularidade[category] + '" class="' + category + ' ' + normalize(irregularidade[category]) + '">' + irregularidade[category] + '</td>';
             irregularidadesContent += '<td><p>' + irregularidade.constatacao + '</p></td>';
         })
         irregularidadesContent += '</tbody></table>';
