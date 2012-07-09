@@ -18,11 +18,11 @@ $(document).ready(function() {
         if($('#programas-more').hasClass('active')) {
             $('#programas-more').removeClass('active');
             $('#carousel .programas .graph').show();
-            $(this).text('Saiba mais sobre os programas');
+            $(this).text('Saiba mais sobre os programas do Ministério da Educação');
         } else {
             $('#programas-more').addClass('active').jScrollPane();
             $('#carousel .programas .graph').hide();
-            $(this).text('Ocultar informações sobre os programas');
+            $(this).text('Ocultar informações sobre os programas do Ministério da Educação');
         }
         return false;
     });
