@@ -66,10 +66,10 @@ var tilejson = {
     tilejson: '1.0.0',
     scheme: 'xyz',
     tiles: [
-        'http://maps.cardume.art.br/v2/eduamazonia/{z}/{x}/{y}.png'
+        'http://tiles.infoamazonia.org/v2/eduamazonia/{z}/{x}/{y}.png'
     ],
     grids: [
-        'http://maps.cardume.art.br/v2/eduamazonia/{z}/{x}/{y}.grid.json'
+        'http://tiles.infoamazonia.org/v2/eduamazonia/{z}/{x}/{y}.grid.json'
     ],
     formatter: function(options, data) {
         var tooltip = '';
@@ -290,7 +290,7 @@ function loadSection(section) {
             tilejson: '1.0.0',
             scheme: 'xyz',
             tiles: [
-                'http://maps.cardume.art.br/v2/eduamazonia_marcador/{z}/{x}/{y}.png'
+                'http://tiles.infoamazonia.org/v2/eduamazonia_marcador/{z}/{x}/{y}.png'
             ],
             formatter: function(options, data) {
                 return data
